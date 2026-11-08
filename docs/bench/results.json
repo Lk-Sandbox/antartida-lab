@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-08T18:42:56.233Z",
+  "machine": "Intel(R) Core(TM) Ultra 5 125H × 18",
+  "chromium": "Chromium 156.0.8078.47 Arch Linux",
+  "results": [
+    {
+      "app": "react-vite",
+      "buildMs": 1114,
+      "jsTotal": {
+        "raw": 303278,
+        "gzip": 97422,
+        "brotli": 82982
+      },
+      "jsInitial": {
+        "raw": 244154,
+        "gzip": 76288,
+        "brotli": 65659
+      },
+      "css": {
+        "raw": 20651,
+        "gzip": 4880,
+        "brotli": 4356
+      },
+      "requests": 9,
+      "lighthouse": {
+        "performance": 98,
+        "accessibility": 100,
+        "lcp": 1572,
+        "tbt": 123,
+        "cls": 0.001
+      },
+      "lighthouseRuns": [
+        {
+          "performance": 98,
+          "accessibility": 100,
+          "lcp": 1572,
+          "tbt": 123,
+          "cls": 0.001
+        }
+      ],
+      "interaction": {
+        "pan": {
+          "longTasks": 0,
+          "longTaskMs": 0,
+          "longFrames": 0,
+          "frames": 106,
+          "p95Frame": 17
+        },
+        "pinch": {
+          "longTasks": 0,
+          "longTaskMs": 0,
+          "longFrames": 0,
+          "frames": 104,
+          "p95Frame": 17
+        },
+        "dive": {
+          "longTasks": 1,
+          "longTaskMs": 77,
+          "longFrames": 1,
+          "frames": 176,
+          "p95Frame": 17
+        }
+      }
+    }
+  ]
+}
