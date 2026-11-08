@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comparar stacks</title>
+<style>
+  :root { --bg: #1b1f24; --panel: #262b31; --line: #3a4048; --text: #e8e6e1; --muted: #9aa3ad; --accent: #C0862F; --ok: #5fb37a; --bad: #d9705a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.4 system-ui, sans-serif; }
+  header { position: sticky; top: 0; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--line); }
+  h1 { margin: 0 8px 0 0; font-size: 16px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .seg button, .btn { font: inherit; color: var(--text); background: transparent; border: 0; padding: 6px 12px; cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: #1b1f24; font-weight: 700; }
+  .btn { border: 1px solid var(--line); border-radius: 8px; }
+  .btn:hover, .seg button:hover { background: #333a42; }
+  .seg button[aria-pressed="true"]:hover { background: var(--accent); }
+  label { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); }
+  .hint { color: var(--muted); margin-left: auto; }
+  code { background: #11151a; padding: 2px 6px; border-radius: 4px; }
+  main { display: flex; flex-wrap: wrap; gap: 16px; padding: 16px; align-items: flex-start; }
+  main.desktop { display: grid; grid-template-columns: repeat(auto-fill, minmax(560px, 1fr)); }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .bar { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+  .bar b { font-size: 14px; }
+  .bar .port { flex: 1; min-width: 0; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bar b { white-space: nowrap; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex: none; }
+  .dot.up { background: var(--ok); }
+  .dot.down { background: var(--bad); }
+  .bar .sp { flex: 1; }
+  .bar a, .bar button { font: inherit; font-size: 13px; color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; cursor: pointer; text-decoration: none; white-space: nowrap; flex: none; }
+  .bar a:hover, .bar button:hover { background: #333a42; }
+  .frame { position: relative; overflow: hidden; background: #F3EBDD; }
+  .frame iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; background: #F3EBDD; }
+  .down-msg { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; text-align: center; padding: 24px; color: #1F2A36; font-size: 15px; }
+  .card.is-down .down-msg { display: flex; }
+  .card.is-down iframe { visibility: hidden; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Antártida · comparar stacks</h1>
+  <div class="seg" role="group" aria-label="Vista">
+    <button type="button" data-mode="mobile" aria-pressed="true">Mobile 390×844</button>
+    <button type="button" data-mode="desktop" aria-pressed="false">Desktop 1440×900</button>
+  </div>
+  <label><input type="checkbox" id="fit" checked> Ajustar al tamaño de la ventana</label>
+  <button type="button" class="btn" id="reload-all">Recargar todas</button>
+  <span class="hint">Servidores: <code>pnpm preview:all</code></span>
+</header>
+<main id="grid"></main>
+
+<script>
+  const APPS = [
+    { name: 'react-vite', port: 5101, note: 'referencia' },
+    { name: 'astro-react', port: 5102, note: 'Astro + isla React' },
+    { name: 'preact-vite', port: 5103, note: 'preact/compat' },
+    { name: 'svelte-vite', port: 5104, note: 'Svelte 5' },
+    { name: 'r3f-3d', port: 5105, note: '3D experimental' },
+  ];
+  const SIZES = { mobile: { w: 390, h: 844 }, desktop: { w: 1440, h: 900 } };
+  const grid = document.getElementById('grid');
+  const fit = document.getElementById('fit');
+  let mode = 'mobile';
+  try { mode = localStorage.getItem('compare:mode') || mode; fit.checked = localStorage.getItem('compare:fit') !== '0'; } catch {}
+
+  const cards = APPS.map((app) => {
+    const url = `http://localhost:${app.port}/`;
+    const card = document.createElement('section');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="bar">
+        <span class="dot" title="estado del servidor"></span>
+        <b>${app.name}</b><span class="port">:${app.port} · ${app.note}</span>
+        <button type="button" data-act="reload" title="Recargar" aria-label="Recargar ${app.name}">↻</button>
+        <a href="${url}" target="_blank" rel="noopener" title="Abrir en pestaña nueva" aria-label="Abrir ${app.name} en pestaña nueva">↗</a>
+      </div>
+      <div class="frame">
+        <iframe title="${app.name}" src="${url}" loading="eager"></iframe>
+        <div class="down-msg">Servidor apagado en :${app.port}.<br>Corré <code>pnpm preview:all</code> y recargá.</div>
+      </div>`;
+    const iframe = card.querySelector('iframe');
+    card.querySelector('[data-act="reload"]').onclick = () => reload(card, iframe, url);
+    grid.append(card);
+    return { app, url, card, iframe, frame: card.querySelector('.frame'), dot: card.querySelector('.dot') };
+  });
+
+  async function check(c) {
+    try {
+      await fetch(c.url, { mode: 'no-cors', cache: 'no-store' });
+      c.dot.className = 'dot up';
+      c.card.classList.remove('is-down');
+      return true;
+    } catch {
+      c.dot.className = 'dot down';
+      c.card.classList.add('is-down');
+      return false;
+    }
+  }
+
+  async function reload(card, iframe, url) {
+    const c = cards.find((x) => x.card === card);
+    if (await check(c)) iframe.src = url + '?t=' + Date.now();
+  }
+
+  function layout() {
+    const { w, h } = SIZES[mode];
+    grid.className = mode;
+    const headerH = document.querySelector('header').offsetHeight;
+    for (const c of cards) {
+      let scale = 1;
+      if (fit.checked) {
+        if (mode === 'mobile') {
+          // Fit the height, and all apps in one row when the window is wide enough.
+          const byHeight = (window.innerHeight - headerH - 32 - 72) / h;
+          const byWidth = (grid.clientWidth - 32 - 16 * (cards.length - 1) - 2 * cards.length - 4) / cards.length / w;
+          scale = Math.min(1, byHeight, Math.max(byWidth, 0.5));
+        } else {
+          const colW = c.card.clientWidth || grid.clientWidth;
+          scale = Math.min(1, colW / w);
+        }
+      }
+      c.iframe.style.width = w + 'px';
+      c.iframe.style.height = h + 'px';
+      c.iframe.style.transform = `scale(${scale})`;
+      c.frame.style.width = mode === 'mobile' ? Math.round(w * scale) + 'px' : '100%';
+      c.card.style.width = mode === 'mobile' ? Math.round(w * scale) + 2 + 'px' : '';
+      c.frame.style.height = Math.round(h * scale) + 'px';
+    }
+    document.querySelectorAll('[data-mode]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === mode)));
+  }
+
+  document.querySelectorAll('[data-mode]').forEach((b) => b.onclick = () => {
+    mode = b.dataset.mode;
+    try { localStorage.setItem('compare:mode', mode); } catch {}
+    layout();
+    requestAnimationFrame(layout);
+  });
+  fit.onchange = () => { try { localStorage.setItem('compare:fit', fit.checked ? '1' : '0'); } catch {} layout(); };
+  document.getElementById('reload-all').onclick = () => cards.forEach((c) => reload(c.card, c.iframe, c.url));
+  window.addEventListener('resize', layout);
+
+  layout();
+  requestAnimationFrame(layout);
+  cards.forEach(check);
+  // Mark servers that come up later without reloading the page.
+  setInterval(() => cards.forEach((c) => { if (c.card.classList.contains('is-down') || !c.dot.classList.contains('up')) check(c).then((up) => up && (c.iframe.src = c.url)); }), 3000);
+</script>
+</body>
+</html>

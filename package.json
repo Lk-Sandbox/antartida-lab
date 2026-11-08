@@ -10,6 +10,7 @@
     "test": "pnpm -r --if-present test",
     "typecheck": "pnpm -r --if-present typecheck",
     "build": "pnpm -r --filter './apps/*' build",
+    "preview:all": "pnpm -r --parallel --filter './apps/*' preview",
     "e2e": "pnpm -r --filter './apps/*' --workspace-concurrency=1 e2e",
     "coastline": "pnpm --filter @antartida/core coastline",
     "bench": "pnpm --filter @antartida/bench bench"

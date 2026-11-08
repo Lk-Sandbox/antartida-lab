@@ -41,6 +41,10 @@ pnpm --filter @antartida/react-vite dev
 pnpm --filter @antartida/react-vite build
 pnpm --filter @antartida/react-vite preview
 
+# las cinco apps a la vez (compilar antes con pnpm build) y verlas lado a lado:
+# abrí scripts/comparar.html en el navegador (vista mobile o desktop)
+pnpm preview:all
+
 # verificación
 pnpm test        # Vitest de core: proyección, clustering, viewport, expedición, storage
 pnpm typecheck   # tsc y svelte-check en todos los paquetes
