@@ -1,0 +1,93 @@
+{
+  "date": "2026-11-08T20:46:18.526Z",
+  "machine": "Intel(R) Core(TM) Ultra 5 125H × 18",
+  "chromium": "Chromium 156.0.8078.47 Arch Linux",
+  "results": [
+    {
+      "app": "preact-vite",
+      "buildMs": 1001,
+      "jsTotal": {
+        "raw": 100707,
+        "gzip": 37459,
+        "brotli": 32193
+      },
+      "jsInitial": {
+        "raw": 43756,
+        "gzip": 16721,
+        "brotli": 15151
+      },
+      "css": {
+        "raw": 20849,
+        "gzip": 4934,
+        "brotli": 4391
+      },
+      "requests": 11,
+      "lighthouse": {
+        "performance": 98,
+        "accessibility": 100,
+        "lcp": 2105,
+        "tbt": 100,
+        "cls": 0.001
+      },
+      "lighthouseRuns": [
+        {
+          "performance": 98,
+          "accessibility": 100,
+          "lcp": 2104,
+          "tbt": 100,
+          "cls": 0.001
+        },
+        {
+          "performance": 98,
+          "accessibility": 100,
+          "lcp": 2105,
+          "tbt": 100,
+          "cls": 0.001
+        },
+        {
+          "performance": 98,
+          "accessibility": 100,
+          "lcp": 2108,
+          "tbt": 100,
+          "cls": 0.001
+        }
+      ],
+      "interaction": {
+        "pan": {
+          "longTasks": 0,
+          "longTaskMs": 0,
+          "longFrames": 0,
+          "frames": 104,
+          "p95Frame": 17
+        },
+        "pinch": {
+          "longTasks": 0,
+          "longTaskMs": 0,
+          "longFrames": 0,
+          "frames": 102,
+          "p95Frame": 17
+        },
+        "dive": {
+          "longTasks": 1,
+          "longTaskMs": 54,
+          "longFrames": 1,
+          "frames": 176,
+          "p95Frame": 17
+        }
+      },
+      "zoomGpu": {
+        "renderer": "ANGLE (Intel, Mesa Intel(R) Arc(tm) Graphics (MTL), OpenGL ES 3.2)",
+        "buttons": {
+          "gpuMs": 172,
+          "maxTaskMs": 23,
+          "longTasks": 3
+        },
+        "wheel": {
+          "gpuMs": 125,
+          "maxTaskMs": 15,
+          "longTasks": 0
+        }
+      }
+    }
+  ]
+}

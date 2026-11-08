@@ -2,6 +2,8 @@
 
 Diferencias respecto del prototipo (`docs/handoff/design/Main.dc.html`) y entre stacks, y por qué.
 
+> La app es **preact-vite**. Las secciones de los otros stacks son historia del laboratorio: esas apps están en `archive/` y su último estado funcional está en la etiqueta git `lab-comparacion`.
+
 ## Comunes a todas las apps
 
 ### Costa de Natural Earth
@@ -44,7 +46,7 @@ Costos:
 
 - La imagen base (59 kB) se descarga siempre, y la nítida (172 o 560 kB) en tiempo ocioso.
 - **El LCP que informa Lighthouse sube** (en preact-vite, de 1,2 s a ~2,1 s), y no porque el mapa tarde más. El mapa SVG no cuenta como candidato a LCP: antes Lighthouse medía el título, que llega antes, aunque el mapa apareciera recién al ejecutar el JS. Ahora la imagen del mapa sí cuenta y es el elemento más grande.
-- En Astro la imagen se monta recién en el cliente, porque durante el prerender las URLs de los assets se resuelven a rutas `file://`. El `preload` de la página (`import ...webp?url` en el frontmatter) sí sale con la ruta pública.
+- (Archivado) En Astro la imagen se montaba recién en el cliente, porque durante el prerender las URLs de los assets se resolvían a rutas `file://`. Al quedar solo preact-vite, la imagen vuelve a renderizarse desde el primer render.
 
 ### Correcciones al prototipo
 
@@ -62,7 +64,7 @@ Costos:
 - **TypeScript 6.0.3**, no 7.0. `svelte-check` 4.7.8 todavía pide TypeScript ^5 o ^6, y se usa la misma versión en todo el repo.
 - **Un solo spec de Playwright** (`packages/e2e`) para todas las apps, con roles y textos del handoff como selectores. Además del flujo, falla ante cualquier error de consola (hidratación, excepciones, 404).
 
-## Por stack
+## Por stack (laboratorio)
 
 ### astro-react
 

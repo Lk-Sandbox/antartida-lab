@@ -1,6 +1,6 @@
 export { AntarcticaApp } from './AntarcticaApp.tsx';
-export { MapView, SvgLayer, type Anim, type LayerProps, type MapViewProps, type Phase } from './map/MapView.tsx';
-export { MarkerButton, Markers } from './map/Markers.tsx';
+export { MapView, type MapViewProps, type Phase } from './map/MapView.tsx';
+export { Markers } from './map/Markers.tsx';
 export { PointSheet } from './map/PointSheet.tsx';
 export { ListView } from './map/ListView.tsx';
 export { Legend } from './map/Legend.tsx';

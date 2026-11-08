@@ -1,7 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { NOTES } from './notes.ts';
 import type { AppResult, BenchFile, Interaction, Size } from './types.ts';
 
 const A11Y_MIN = 95;
@@ -23,9 +22,9 @@ export function renderReport(file: BenchFile): string {
   const rs: AppResult[] = file.results;
   const valid = rs.filter((r) => !r.error);
   const out: string[] = [];
-  out.push('# Comparación de stacks', '');
+  out.push('# Rendimiento', '');
   out.push(
-    '> Generado por `pnpm bench` (`scripts/bench`). No editar a mano: los textos de cada stack salen de `scripts/bench/src/notes.ts`.',
+    '> Generado por `pnpm bench` (`scripts/bench`). No editar a mano. La comparación de stacks que eligió esta app está congelada en [`docs/lab/COMPARACION.md`](lab/COMPARACION.md).',
     '',
     `Fecha: ${file.date.slice(0, 10)} · Máquina: ${file.machine} · ${file.chromium}`,
     '',
@@ -72,7 +71,7 @@ export function renderReport(file: BenchFile): string {
   if (gpu.length) {
     out.push('## Zoom con GPU real (1440 px)', '');
     out.push(
-      `GPU: ${gpu[0].zoomGpu!.renderer}. Trabajo del proceso de GPU mientras se hace zoom: es donde aparecían las trabas (los filtros SVG se re-rasterizan fuera del hilo principal y no se ven en las métricas de arriba). Formato: total · tarea más larga · tareas > 16 ms. r3f-3d no se mide aquí: su mapa es una textura WebGL.`,
+      `GPU: ${gpu[0].zoomGpu!.renderer}. Trabajo del proceso de GPU mientras se hace zoom: es donde aparecían las trabas (los filtros SVG se re-rasterizan fuera del hilo principal y no se ven en las métricas de arriba). Formato: total · tarea más larga · tareas > 16 ms.`,
       '',
     );
     const z = (c: { gpuMs: number; maxTaskMs: number; longTasks: number }) => `${c.gpuMs} ms · máx ${c.maxTaskMs} ms · ${c.longTasks}`;
@@ -87,14 +86,7 @@ export function renderReport(file: BenchFile): string {
   }
 
   out.push('## Capturas', '');
-  out.push('En `docs/capturas/<app>/`: `mapa`, `ficha`, `lista`, `excavacion` y `conclusion`, a 390 y 1440 px.', '');
-
-  out.push('## Ventajas y desventajas', '');
-  for (const r of rs) {
-    const note = NOTES[r.app];
-    if (!note) continue;
-    out.push(`### ${r.app}`, '', note.trim(), '');
-  }
+  out.push('En `docs/rendimiento/capturas/<app>/`: `mapa`, `ficha`, `lista`, `excavacion` y `conclusion`, a 390 y 1440 px.', '');
   return out.join('\n');
 }
 
@@ -104,6 +96,6 @@ export function writeReport(file: BenchFile, target: string) {
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   const root = fileURLToPath(new URL('../../../', import.meta.url));
-  const file: BenchFile = JSON.parse(readFileSync(join(root, 'docs/bench/results.json'), 'utf8'));
-  writeReport(file, join(root, 'docs/COMPARACION.md'));
+  const file: BenchFile = JSON.parse(readFileSync(join(root, 'docs/rendimiento/results.json'), 'utf8'));
+  writeReport(file, join(root, 'docs/RENDIMIENTO.md'));
 }

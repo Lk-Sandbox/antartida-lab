@@ -1,7 +1,8 @@
 /**
  * pnpm bench [app ...] [--runs=3] [--skip-lighthouse] [--skip-shots]
  * Builds each app, serves its preview and measures size, Lighthouse, interaction and screenshots.
- * Results are merged into docs/bench/results.json and docs/COMPARACION.md is regenerated.
+ * Results go to docs/rendimiento/results.json and docs/RENDIMIENTO.md is regenerated.
+ * The stack comparison that chose preact-vite is frozen in docs/lab/.
  */
 import { execSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -20,7 +21,7 @@ import { initialJs, sumFiles } from './sizes.ts';
 import type { AppResult, BenchFile, LighthouseRun } from './types.ts';
 
 const root = fileURLToPath(new URL('../../../', import.meta.url));
-const resultsFile = join(root, 'docs/bench/results.json');
+const resultsFile = join(root, 'docs/rendimiento/results.json');
 const outDir = join(root, 'scripts/bench/out');
 
 const args = process.argv.slice(2);
@@ -48,10 +49,10 @@ async function benchApp(app: AppName): Promise<AppResult> {
     console.log(`[${app}] interaction (CPU 4x)`);
     const interaction = await measureInteraction(browser, url);
     console.log(`[${app}] zoom (GPU)`);
-    const zoomGpu = app === 'r3f-3d' ? undefined : await measureZoomGpu(url, chromiumPath, outDir);
+    const zoomGpu = await measureZoomGpu(url, chromiumPath, outDir);
     if (!flag('skip-shots')) {
       console.log(`[${app}] screenshots`);
-      await screenshots(browser, url, join(root, 'docs/capturas', app));
+      await screenshots(browser, url, join(root, 'docs/rendimiento/capturas', app));
     }
     const lighthouseRuns: LighthouseRun[] = [];
     if (!flag('skip-lighthouse')) {
@@ -95,7 +96,7 @@ const file: BenchFile = {
   chromium: (() => { try { return execSync(`${chromiumPath ?? 'chromium'} --version`, { encoding: 'utf8' }).trim(); } catch { return 'unknown'; } })(),
   results: (Object.keys(APPS) as AppName[]).map((a) => results.get(a)).filter((r): r is AppResult => !!r),
 };
-mkdirSync(join(root, 'docs/bench'), { recursive: true });
+mkdirSync(join(root, 'docs/rendimiento'), { recursive: true });
 writeFileSync(resultsFile, JSON.stringify(file, null, 2) + '\n');
-writeReport(file, join(root, 'docs/COMPARACION.md'));
-console.log('\nResultados en docs/bench/results.json y docs/COMPARACION.md');
+writeReport(file, join(root, 'docs/RENDIMIENTO.md'));
+console.log('\nResultados en docs/rendimiento/results.json y docs/RENDIMIENTO.md');

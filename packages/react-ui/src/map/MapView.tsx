@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ComponentType, type KeyboardEvent, type PointerEvent } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
 import {
   DRAG_THRESHOLD, EXPEDITION_POINT, HOME, MAP_PLACEHOLDER, MAP_RASTER, MAP_RASTER_BOX, PTS, ZOOM_MS,
   buildMarkers, diveView, geometry, isWheelNotch, keyView, layerTransform, loadHiResWhenIdle, loadMapInk, panBy, wheelFactor, zoomAround, zoomCenter,
@@ -26,14 +26,9 @@ export interface MapViewProps {
   focusExpedition: boolean;
   onToggleLegend: () => void;
   onStart: () => void;
-  /** Renders the map itself and its markers (painted SVG by default). */
-  layer?: ComponentType<LayerProps>;
-  /** No map available (e.g. no WebGL): the list is the main view and cannot be closed. */
-  forceList?: boolean;
 }
 
-export interface LayerProps {
-  size: Size;
+interface MapLayerProps {
   geo: Geometry;
   view: View;
   anim: Anim;
@@ -53,11 +48,9 @@ const LAYER_TRANSITION: Record<Anim, string> = {
  * Default layer: the baked watercolor image, the crisp vector ink on top, and HTML markers.
  * Zooming only scales a bitmap and filter-free vectors, so it never re-runs the SVG filters.
  */
-export function SvgLayer({ geo, view, anim, phase, markers, onPick }: LayerProps) {
+function MapLayer({ geo, view, anim, phase, markers, onPick }: MapLayerProps) {
   const [ink, setInk] = useState('');
-  // Set on the client only: prerendered HTML (Astro) must not carry a build-machine asset path.
-  const [src, setSrc] = useState<string | null>(null);
-  useEffect(() => setSrc(MAP_RASTER.base), []);
+  const [src, setSrc] = useState(MAP_RASTER.base);
   const [painted, setPainted] = useState(false);
   useEffect(() => {
     let alive = true;
@@ -74,7 +67,7 @@ export function SvgLayer({ geo, view, anim, phase, markers, onPick }: LayerProps
         {!painted && (
           <svg viewBox="0 0 1000 1000" style={{ position: 'absolute' }} aria-hidden="true" focusable="false" dangerouslySetInnerHTML={{ __html: MAP_PLACEHOLDER }} />
         )}
-        {src && <img className="paint" src={src} alt="" draggable={false} decoding="async" fetchPriority="high" style={MAP_RASTER_BOX} onLoad={() => setPainted(true)} />}
+        <img className="paint" src={src} alt="" draggable={false} decoding="async" fetchPriority="high" style={MAP_RASTER_BOX} onLoad={() => setPainted(true)} />
         <svg viewBox="0 0 1000 1000" aria-hidden="true" focusable="false" dangerouslySetInnerHTML={{ __html: ink }} />
       </div>
       <Markers
@@ -86,9 +79,7 @@ export function SvgLayer({ geo, view, anim, phase, markers, onPick }: LayerProps
   );
 }
 
-export function MapView({
-  phase, explored, toast, legend, focusExpedition, onToggleLegend, onStart, layer: Layer = SvgLayer, forceList = false,
-}: MapViewProps) {
+export function MapView({ phase, explored, toast, legend, focusExpedition, onToggleLegend, onStart }: MapViewProps) {
   const vpRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState<Size>({ vw: 390, vh: 844 });
   const [view, setView] = useState<View>(HOME);
@@ -260,7 +251,7 @@ export function MapView({
           onPointerLeave={onUp}
           onKeyDown={onKey}
         >
-          {!forceList && <Layer size={size} geo={geo} view={view} anim={anim} phase={phase} markers={markers} onPick={onPick} />}
+          <MapLayer geo={geo} view={view} anim={anim} phase={phase} markers={markers} onPick={onPick} />
         </div>
 
         <svg className="grain" aria-hidden="true" focusable="false"><rect width="100%" height="100%" filter="url(#paperf)" /></svg>
@@ -291,10 +282,10 @@ export function MapView({
           </div>
         </div>
 
-        {(list || forceList) && (
+        {list && (
           <ListView
             explored={explored}
-            onClose={forceList ? undefined : () => setList(false)}
+            onClose={() => setList(false)}
             onPick={(p) => { setList(false); openPoint(p); }}
           />
         )}

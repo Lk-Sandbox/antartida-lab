@@ -1,6 +1,6 @@
 # Comparación de stacks
 
-> Generado por `pnpm bench` (`scripts/bench`). No editar a mano: los textos de cada stack salen de `scripts/bench/src/notes.ts`.
+> **Documento congelado.** Resultado final del laboratorio (etiqueta git `lab-comparacion`). Se eligió **preact-vite**; las otras apps están en `archive/`. El rendimiento actual de la app se sigue en [`docs/RENDIMIENTO.md`](../RENDIMIENTO.md).
 
 Fecha: 2026-11-08 · Máquina: Intel(R) Core(TM) Ultra 5 125H × 18 · Chromium 156.0.8078.47 Arch Linux
 
@@ -71,7 +71,7 @@ GPU: ANGLE (Intel, Mesa Intel(R) Arc(tm) Graphics (MTL), OpenGL ES 3.2). Trabajo
 
 ## Capturas
 
-En `docs/capturas/<app>/`: `mapa`, `ficha`, `lista`, `excavacion` y `conclusion`, a 390 y 1440 px.
+En `docs/lab/capturas/<app>/`: `mapa`, `ficha`, `lista`, `excavacion` y `conclusion`, a 390 y 1440 px.
 
 ## Ventajas y desventajas
 

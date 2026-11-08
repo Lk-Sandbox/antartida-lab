@@ -12,7 +12,6 @@ export const MAP_RASTER_SPAN = 1000 + 2 * MAP_RASTER_PAD;
 /**
  * `base` (768 px, preloaded from each app's HTML) is the first paint and the LCP element; a sharper one
  * is swapped in while idle: `mid` on small screens (less GPU memory on phones), `hi` on desktop.
- * Client-side only: during Astro's prerender these resolve to file:// paths, so components set them in an effect.
  */
 export const MAP_RASTER = {
   base: new URL('../assets/map-paint-768.webp', import.meta.url).href,
