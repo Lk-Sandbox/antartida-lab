@@ -1,0 +1,21 @@
+{
+  "name": "antartida-lab",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.5.2",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "pnpm -r --if-present test",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "build": "pnpm -r --filter ./apps/* build",
+    "e2e": "pnpm -r --filter ./apps/* --workspace-concurrency=1 e2e",
+    "coastline": "pnpm --filter @antartida/core coastline",
+    "bench": "pnpm --filter @antartida/bench bench"
+  },
+  "devDependencies": {
+    "typescript": "6.0.3",
+    "@types/node": "26.6.6"
+  }
+}
