@@ -95,9 +95,6 @@ export function spotAt(x: number, y: number, width: number, height: number, prog
   return hit;
 }
 
-/** Sediment opacity over a spot: 1 untouched, 0 cleared. */
-export const coverOpacity = (s: ExpeditionState, spot: number) => Math.max(0, 1 - s.prog[spot] / PASSES_PER_SPOT);
-
 /** Minimum ms between passes on the same spot while dragging. */
 export const BRUSH_INTERVAL = 120;
 /** Minimum ms between dust puffs. */

@@ -42,7 +42,7 @@ export function renderReport(file: BenchFile): string {
   ), '');
 
   out.push('## Peso (kB)', '');
-  out.push('JS inicial = scripts del HTML (y de las islas de Astro) más todo lo que importan estáticamente. Los `import()` diferidos (costa, expedición, 3D) quedan fuera.', '');
+  out.push('JS inicial = scripts del HTML más todo lo que importan estáticamente. Los `import()` diferidos (costa y expedición) quedan fuera.', '');
   out.push(table(
     ['App', 'JS inicial raw', 'gzip', 'brotli', 'JS total raw', 'gzip', 'brotli', 'CSS raw', 'gzip', 'brotli'],
     valid.map((r) => [r.app, ...sizeCells(r.jsInitial), ...sizeCells(r.jsTotal), ...sizeCells(r.css)]),

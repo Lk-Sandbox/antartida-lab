@@ -65,4 +65,4 @@ pnpm bench        # build, peso, Lighthouse ×3, interacción con CPU 4x, zoom c
 
 ## Declaración de uso de IA
 
-Como exigen las bases de la hackatón: **el diseño se generó con Claude Design** (prototipo en `docs/handoff/design/Main.dc.html`) y **el código de este repositorio se escribió con Claude Code**, con revisión del equipo.
+Como exigen las bases de la hackatón: se dibujo un boceto con todas las posibles ideas y luego **el diseño se generó con Claude Design** (prototipo en `docs/handoff/design/Main.dc.html`) y **el código de este repositorio se escribió con Claude Code**, con multiples revisiones del equipo.

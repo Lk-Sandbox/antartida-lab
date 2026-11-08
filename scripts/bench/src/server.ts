@@ -3,7 +3,7 @@ import { rmSync } from 'node:fs';
 import { join } from 'node:path';
 
 export function build(appDir: string): number {
-  for (const d of ['dist', '.astro', 'node_modules/.vite']) rmSync(join(appDir, d), { recursive: true, force: true });
+  for (const d of ['dist', 'node_modules/.vite']) rmSync(join(appDir, d), { recursive: true, force: true });
   const t0 = performance.now();
   const r = spawnSync('pnpm', ['build'], { cwd: appDir, stdio: ['ignore', 'ignore', 'pipe'], encoding: 'utf8' });
   if (r.status !== 0) throw new Error(`build failed in ${appDir}:\n${r.stderr.slice(-2000)}`);

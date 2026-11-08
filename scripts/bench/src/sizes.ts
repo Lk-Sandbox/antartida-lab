@@ -31,14 +31,14 @@ export function sumFiles(dist: string, ext: RegExp): Size {
 const STATIC_IMPORT = /(?:\bimport\s*(?:[\w$*{}\s,]+?\s*from\s*)?|\bexport\s*(?:\*|\{[^}]*\})\s*from\s*)["']([^"']+\.m?js)["']/g;
 
 /**
- * JS needed before the page is interactive: <script src>, <link rel=modulepreload>, Astro island
- * component/renderer URLs and inline scripts, plus everything they import statically.
+ * JS needed before the page is interactive: <script src>, <link rel=modulepreload> and inline scripts,
+ * plus everything they import statically.
  * Lazy chunks (dynamic import()) are excluded.
  */
 export function initialJs(dist: string, htmlFile = 'index.html'): { size: Size; files: string[] } {
   const html = readFileSync(join(dist, htmlFile), 'utf8');
   const roots = new Set<string>();
-  const attr = /(?:<script[^>]*\ssrc|<link[^>]*rel="modulepreload"[^>]*\shref|<link[^>]*\shref(?=[^>]*rel="modulepreload")|component-url|renderer-url|before-hydration-url)="([^"]+\.m?js)"/g;
+  const attr = /(?:<script[^>]*\ssrc|<link[^>]*rel="modulepreload"[^>]*\shref|<link[^>]*\shref(?=[^>]*rel="modulepreload"))="([^"]+\.m?js)"/g;
   for (const m of html.matchAll(attr)) roots.add(m[1]);
 
   const seen = new Set<string>();
