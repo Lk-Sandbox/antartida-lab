@@ -14,4 +14,11 @@ export const NOTES: Record<string, string> = {
 
 **Experiencia de desarrollo.** Integración con React sin fricción: una página \`.astro\` de 20 líneas. La sorpresa fue el CLI: \`astro preview\` detecta que lo corre un agente y se va a segundo plano, lo que rompe a Playwright; se resolvió con \`--ignore-lock\`.
 `,
+  'preact-vite': `
+**Ventajas.** Mismo código que la referencia, con cuatro líneas de alias en \`vite.config.ts\` y ningún cambio en los componentes. El JS inicial cae a una fracción del de React porque Preact reemplaza a React DOM. Si el equipo quiere seguir escribiendo React pero necesita peso mínimo, es la opción más barata.
+
+**Desventajas.** \`preact/compat\` no es React: los efectos (\`useEffect\`) corren después del paint, así que el foco que se mueve en un efecto llega un frame más tarde. Los usuarios no lo notan, pero los tests de teclado que presionaban teclas inmediatamente fallaban y hubo que hacerlos esperar el foco. Las librerías del ecosistema que dependen de internals de React (como React Three Fiber) no son compatibles.
+
+**Experiencia de desarrollo.** Sin \`@preact/preset-vite\` (que pide Babel); alcanzó con alias y el runtime JSX automático de Vite. El tipado se hace contra \`@types/react\`, así que el editor no avisa si se usa algo que compat no soporta: la red de seguridad son los E2E.
+`,
 };

@@ -44,6 +44,9 @@ const focusedName = (page: Page) =>
 
 let consoleErrors: string[] = [];
 
+/** Focus moves in an effect, which some runtimes (Preact, Svelte) flush after paint: poll. */
+const expectFocused = (page: Page, name: string) => expect.poll(() => focusedName(page)).toBe(name);
+
 test.beforeEach(async ({ page }) => {
   consoleErrors = [];
   page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(m.text()); });
@@ -95,7 +98,7 @@ test('completes the expedition with pointer and persists the log', async ({ page
 test('completes the expedition with the keyboard only', async ({ page }) => {
   await tabTo(page, /^Ver como lista$/);
   await page.keyboard.press('Enter');
-  await expect(page.getByRole('dialog', { name: 'Todos los puntos' })).toBeVisible();
+  await expectFocused(page, 'Ver mapa');
   await tabTo(page, /^Fósiles/);
   await page.keyboard.press('Enter');
 
@@ -108,6 +111,7 @@ test('completes the expedition with the keyboard only', async ({ page }) => {
     else await expect(page.getByRole('button', { name: /^Zona de excavación 1/ })).toBeFocused();
     for (let i = 0; i < 4; i++) await page.keyboard.press('Enter');
     await expect(page.getByRole('dialog')).toContainText(`hallazgo ${spot} de 3`);
+    await expectFocused(page, spot < 3 ? 'Seguir excavando' : 'Comparar evidencias');
     await page.keyboard.press('Enter');
   }
 
@@ -130,20 +134,21 @@ test('dialogs close with Escape and return focus to their trigger', async ({ pag
   await tabTo(page, /^Ver como lista$/);
   await page.keyboard.press('Enter');
   await expect(page.getByRole('dialog', { name: 'Todos los puntos' })).toBeVisible();
-  expect(await focusedName(page)).toBe('Ver mapa');
+  await expectFocused(page, 'Ver mapa');
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toHaveCount(0);
-  expect(await focusedName(page)).toBe('Ver como lista');
+  await expectFocused(page, 'Ver como lista');
 
   await page.keyboard.press('Enter');
+  await expectFocused(page, 'Ver mapa');
   await tabTo(page, /^Estación Orcadas/);
   await page.keyboard.press('Enter');
   const sheet = page.getByRole('dialog', { name: 'Estación Orcadas' });
   await expect(sheet).toContainText('[Pregunta provisional]');
-  expect(await focusedName(page)).toBe('Cerrar ficha');
+  await expectFocused(page, 'Cerrar ficha');
   await page.keyboard.press('Escape');
   await expect(sheet).toHaveCount(0);
-  expect(await focusedName(page)).toBe('Ver como lista');
+  await expectFocused(page, 'Ver como lista');
 });
 
 test('knowledge panel shows three levels without blocking the flow', async ({ page }) => {
