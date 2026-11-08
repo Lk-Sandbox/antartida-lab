@@ -8,11 +8,11 @@ Fecha: 2026-11-08 · Máquina: Intel(R) Core(TM) Ultra 5 125H × 18 · Chromium 
 
 | App | Accesibilidad ≥ 95 | JS inicial < 80 kB gzip | E2E |
 |---|---|---|---|
-| react-vite | sí (100) | sí (74.5 kB) | ver `pnpm e2e` |
-| astro-react | sí (100) | sí (78.5 kB) | ver `pnpm e2e` |
-| preact-vite | **no** (—) | sí (16.0 kB) | ver `pnpm e2e` |
-| svelte-vite | **no** (—) | sí (24.6 kB) | ver `pnpm e2e` |
-| r3f-3d | **no** (—) | sí (75.2 kB) | ver `pnpm e2e` |
+| react-vite | sí (100) | sí (74.6 kB) | ver `pnpm e2e` |
+| astro-react | sí (100) | sí (78.7 kB) | ver `pnpm e2e` |
+| preact-vite | sí (100) | sí (16.1 kB) | ver `pnpm e2e` |
+| svelte-vite | sí (100) | sí (24.6 kB) | ver `pnpm e2e` |
+| r3f-3d | sí (100) | sí (75.2 kB) | ver `pnpm e2e` |
 
 ## Peso (kB)
 
@@ -20,10 +20,10 @@ JS inicial = scripts del HTML (y de las islas de Astro) más todo lo que importa
 
 | App | JS inicial raw | gzip | brotli | JS total raw | gzip | brotli | CSS raw | gzip | brotli |
 |---|---|---|---|---|---|---|---|---|---|
-| react-vite | 238.4 | 74.5 | 64.1 | 296.2 | 95.1 | 81.0 | 20.2 | 4.8 | 4.3 |
-| astro-react | 245.5 | 78.5 | 68.1 | 298.4 | 97.2 | 83.3 | 20.2 | 4.8 | 4.3 |
-| preact-vite | 42.0 | 16.0 | 14.5 | 98.4 | 36.6 | 31.3 | 20.2 | 4.8 | 4.3 |
-| svelte-vite | 64.3 | 24.6 | 22.1 | 124.5 | 47.0 | 40.5 | 20.2 | 4.8 | 4.3 |
+| react-vite | 238.8 | 74.6 | 64.3 | 296.5 | 95.3 | 81.2 | 20.2 | 4.8 | 4.3 |
+| astro-react | 245.9 | 78.7 | 68.2 | 298.8 | 97.4 | 83.5 | 20.2 | 4.8 | 4.3 |
+| preact-vite | 42.4 | 16.1 | 14.6 | 98.7 | 36.7 | 31.4 | 20.2 | 4.8 | 4.3 |
+| svelte-vite | 64.3 | 24.6 | 22.1 | 124.5 | 47.0 | 40.4 | 20.2 | 4.8 | 4.3 |
 | r3f-3d | 240.0 | 75.2 | 64.8 | 1204.5 | 333.5 | 277.5 | 20.2 | 4.8 | 4.3 |
 
 ## Build y red
@@ -40,11 +40,11 @@ JS inicial = scripts del HTML (y de las islas de Astro) más todo lo que importa
 
 | App | Performance | Accesibilidad | LCP (ms) | TBT (ms) | CLS |
 |---|---|---|---|---|---|
-| react-vite | 98 | 100 | 1572 | 123 | 0.001 |
-| astro-react | 99 | 100 | 756 | 133 | 0.002 |
-| preact-vite | — | — | — | — | — |
-| svelte-vite | — | — | — | — | — |
-| r3f-3d | — | — | — | — | — |
+| react-vite | 98 | 100 | 1588 | 121 | 0.001 |
+| astro-react | 97 | 100 | 754 | 190 | 0.002 |
+| preact-vite | 100 | 100 | 1223 | 0 | 0.001 |
+| svelte-vite | 99 | 100 | 1279 | 132 | 0 |
+| r3f-3d | 69 | 100 | 1551 | 3822 | 0.001 |
 
 ## Interacción con CPU 4x (390 px, táctil)
 
@@ -52,11 +52,11 @@ Formato: tareas largas (tiempo total) · frames > 50 ms / frames medidos · p95 
 
 | App | Pan | Pinch | Bajada a la expedición |
 |---|---|---|---|
-| react-vite | 0 (0 ms) · 0/106 · p95 17 ms | 0 (0 ms) · 0/104 · p95 17 ms | 1 (77 ms) · 1/176 · p95 17 ms |
-| astro-react | 0 (0 ms) · 0/105 · p95 17 ms | 0 (0 ms) · 0/104 · p95 17 ms | 1 (85 ms) · 1/175 · p95 17 ms |
-| preact-vite | 0 (0 ms) · 0/104 · p95 17 ms | 0 (0 ms) · 0/102 · p95 17 ms | 1 (80 ms) · 1/179 · p95 17 ms |
-| svelte-vite | 0 (0 ms) · 0/104 · p95 17 ms | 0 (0 ms) · 0/103 · p95 17 ms | 1 (92 ms) · 1/177 · p95 17 ms |
-| r3f-3d | 24 (1260 ms) · 3/138 · p95 50 ms | 38 (2248 ms) · 10/137 · p95 50 ms | 28 (1643 ms) · 18/126 · p95 67 ms |
+| react-vite | 0 (0 ms) · 0/106 · p95 17 ms | 0 (0 ms) · 0/106 · p95 17 ms | 1 (73 ms) · 1/178 · p95 17 ms |
+| astro-react | 0 (0 ms) · 0/105 · p95 17 ms | 0 (0 ms) · 0/104 · p95 17 ms | 2 (157 ms) · 2/175 · p95 17 ms |
+| preact-vite | 0 (0 ms) · 0/105 · p95 17 ms | 0 (0 ms) · 0/102 · p95 17 ms | 1 (87 ms) · 1/178 · p95 17 ms |
+| svelte-vite | 0 (0 ms) · 0/105 · p95 17 ms | 0 (0 ms) · 0/102 · p95 17 ms | 2 (124 ms) · 1/172 · p95 17 ms |
+| r3f-3d | 13 (681 ms) · 2/138 · p95 50 ms | 38 (2248 ms) · 6/133 · p95 50 ms | 27 (1562 ms) · 18/126 · p95 67 ms |
 
 ## Capturas
 
@@ -95,3 +95,11 @@ En `docs/capturas/<app>/`: `mapa`, `ficha`, `lista`, `excavacion` y `conclusion`
 **Desventajas.** Es una reescritura completa: 15 componentes que hay que mantener en paralelo con `react-ui`. El SVG inyectado necesitó una acción propia porque `{@html}` no es cómodo dentro de `<svg>`. El linter de accesibilidad de Svelte marca patrones que pide el handoff (`<section role="dialog">`, mapa `role="application"` enfocable) y hubo que silenciarlos puntualmente.
 
 **Experiencia de desarrollo.** Rápida y agradable, pero con una trampa de reactividad: un `$effect` que lee `s.step` de un `$state.raw` depende del objeto entero y se volvía a ejecutar en cada acción, robándole el foco a la tarjeta de evidencia. Se resolvió con un `$derived`. Lo atrapó el test de teclado, no la revisión visual.
+
+### r3f-3d
+
+**Ventajas.** La "bajada" deja de ser un truco de CSS (`rotateX` sobre un plano) y pasa a ser una cámara en perspectiva que vuela hasta Marambio: es la versión con más impacto visual. El pan y el zoom mueven solo la cámara sobre una textura ya rasterizada, así que los filtros SVG (`feTurbulence`) se pagan una sola vez y no en cada frame. Todo lo demás (encabezado, fichas, lista, expedición) es `react-ui` sin cambios, y la cámara cenital encuadra el plano igual que la capa 2D, de modo que clustering, etiquetas y gestos salen de `core`.
+
+**Desventajas.** Es, con diferencia, la más pesada: three.js + React Three Fiber suman unos 250 kB gzip en un chunk diferido, porque R3F registra todo el namespace de THREE y no se puede recortar importando solo `Html` de drei. El texto del mapa se rasteriza sin las tipografías propias (una imagen SVG no puede cargar fuentes externas) y con zoom alto la textura se ve más blanda que el SVG vectorial. Necesita WebGL: sin él cae a la vista de lista. El costo real está al arrancar: rasterizar el SVG con filtros a una textura de 2048–4096 px bloquea el hilo principal varios segundos con CPU lenta. Por eso Lighthouse le da el peor TBT y las mediciones de pan y pinch con CPU 4x muestran tareas largas (la rasterización todavía estaba corriendo). Prerrenderizar la textura a un PNG en el build eliminaría ese costo.
+
+**Experiencia de desarrollo.** Lo más delicado fue integrar `Html` de drei con un shell React existente: por defecto se cuelga del contenedor del canvas y al desmontar el mapa tiraba `removeChild`; se resolvió con un `portal` propio. Mapear el estado 2D (`k`, `px`, `py`) a una pose de cámara fue una sola fórmula y evitó duplicar la lógica de gestos.

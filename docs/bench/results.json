@@ -1,20 +1,20 @@
 {
-  "date": "2026-11-08T19:09:50.215Z",
+  "date": "2026-11-08T19:19:30.940Z",
   "machine": "Intel(R) Core(TM) Ultra 5 125H × 18",
   "chromium": "Chromium 156.0.8078.47 Arch Linux",
   "results": [
     {
       "app": "react-vite",
-      "buildMs": 1114,
+      "buildMs": 1133,
       "jsTotal": {
-        "raw": 303278,
-        "gzip": 97422,
-        "brotli": 82982
+        "raw": 303638,
+        "gzip": 97555,
+        "brotli": 83134
       },
       "jsInitial": {
-        "raw": 244154,
-        "gzip": 76288,
-        "brotli": 65659
+        "raw": 244514,
+        "gzip": 76421,
+        "brotli": 65814
       },
       "css": {
         "raw": 20651,
@@ -25,16 +25,30 @@
       "lighthouse": {
         "performance": 98,
         "accessibility": 100,
-        "lcp": 1572,
-        "tbt": 123,
+        "lcp": 1588,
+        "tbt": 121,
         "cls": 0.001
       },
       "lighthouseRuns": [
         {
+          "performance": 99,
+          "accessibility": 100,
+          "lcp": 1527,
+          "tbt": 121,
+          "cls": 0.001
+        },
+        {
           "performance": 98,
           "accessibility": 100,
-          "lcp": 1572,
-          "tbt": 123,
+          "lcp": 1588,
+          "tbt": 116,
+          "cls": 0.001
+        },
+        {
+          "performance": 98,
+          "accessibility": 100,
+          "lcp": 1588,
+          "tbt": 136,
           "cls": 0.001
         }
       ],
@@ -50,30 +64,30 @@
           "longTasks": 0,
           "longTaskMs": 0,
           "longFrames": 0,
-          "frames": 104,
+          "frames": 106,
           "p95Frame": 17
         },
         "dive": {
           "longTasks": 1,
-          "longTaskMs": 77,
+          "longTaskMs": 73,
           "longFrames": 1,
-          "frames": 176,
+          "frames": 178,
           "p95Frame": 17
         }
       }
     },
     {
       "app": "astro-react",
-      "buildMs": 2064,
+      "buildMs": 2124,
       "jsTotal": {
-        "raw": 305524,
-        "gzip": 99538,
-        "brotli": 85327
+        "raw": 305921,
+        "gzip": 99702,
+        "brotli": 85458
       },
       "jsInitial": {
-        "raw": 251396,
-        "gzip": 80389,
-        "brotli": 69720
+        "raw": 251793,
+        "gzip": 80553,
+        "brotli": 69851
       },
       "css": {
         "raw": 20651,
@@ -82,18 +96,32 @@
       },
       "requests": 12,
       "lighthouse": {
-        "performance": 99,
+        "performance": 97,
         "accessibility": 100,
-        "lcp": 756,
-        "tbt": 133,
+        "lcp": 754,
+        "tbt": 190,
         "cls": 0.002
       },
       "lighthouseRuns": [
         {
+          "performance": 89,
+          "accessibility": 100,
+          "lcp": 754,
+          "tbt": 446,
+          "cls": 0.003
+        },
+        {
+          "performance": 97,
+          "accessibility": 100,
+          "lcp": 754,
+          "tbt": 190,
+          "cls": 0.002
+        },
+        {
           "performance": 99,
           "accessibility": 100,
-          "lcp": 756,
-          "tbt": 133,
+          "lcp": 754,
+          "tbt": 102,
           "cls": 0.002
         }
       ],
@@ -113,9 +141,9 @@
           "p95Frame": 17
         },
         "dive": {
-          "longTasks": 1,
-          "longTaskMs": 85,
-          "longFrames": 1,
+          "longTasks": 2,
+          "longTaskMs": 157,
+          "longFrames": 2,
           "frames": 175,
           "p95Frame": 17
         }
@@ -123,16 +151,16 @@
     },
     {
       "app": "preact-vite",
-      "buildMs": 1039,
+      "buildMs": 1030,
       "jsTotal": {
-        "raw": 100768,
-        "gzip": 37438,
-        "brotli": 32060
+        "raw": 101099,
+        "gzip": 37583,
+        "brotli": 32190
       },
       "jsInitial": {
-        "raw": 43050,
-        "gzip": 16391,
-        "brotli": 14826
+        "raw": 43381,
+        "gzip": 16536,
+        "brotli": 14957
       },
       "css": {
         "raw": 20651,
@@ -141,19 +169,41 @@
       },
       "requests": 9,
       "lighthouse": {
-        "performance": null,
-        "accessibility": null,
-        "lcp": null,
-        "tbt": null,
-        "cls": null
+        "performance": 100,
+        "accessibility": 100,
+        "lcp": 1223,
+        "tbt": 0,
+        "cls": 0.001
       },
-      "lighthouseRuns": [],
+      "lighthouseRuns": [
+        {
+          "performance": 100,
+          "accessibility": 100,
+          "lcp": 1223,
+          "tbt": 0,
+          "cls": 0.001
+        },
+        {
+          "performance": 100,
+          "accessibility": 100,
+          "lcp": 1224,
+          "tbt": 0,
+          "cls": 0.001
+        },
+        {
+          "performance": 100,
+          "accessibility": 100,
+          "lcp": 1207,
+          "tbt": 0,
+          "cls": 0.001
+        }
+      ],
       "interaction": {
         "pan": {
           "longTasks": 0,
           "longTaskMs": 0,
           "longFrames": 0,
-          "frames": 104,
+          "frames": 105,
           "p95Frame": 17
         },
         "pinch": {
@@ -165,25 +215,25 @@
         },
         "dive": {
           "longTasks": 1,
-          "longTaskMs": 80,
+          "longTaskMs": 87,
           "longFrames": 1,
-          "frames": 179,
+          "frames": 178,
           "p95Frame": 17
         }
       }
     },
     {
       "app": "svelte-vite",
-      "buildMs": 1422,
+      "buildMs": 1405,
       "jsTotal": {
-        "raw": 127483,
-        "gzip": 48095,
-        "brotli": 41422
+        "raw": 127500,
+        "gzip": 48103,
+        "brotli": 41417
       },
       "jsInitial": {
-        "raw": 65793,
-        "gzip": 25191,
-        "brotli": 22661
+        "raw": 65810,
+        "gzip": 25197,
+        "brotli": 22651
       },
       "css": {
         "raw": 20651,
@@ -192,40 +242,62 @@
       },
       "requests": 9,
       "lighthouse": {
-        "performance": null,
-        "accessibility": null,
-        "lcp": null,
-        "tbt": null,
-        "cls": null
+        "performance": 99,
+        "accessibility": 100,
+        "lcp": 1279,
+        "tbt": 132,
+        "cls": 0
       },
-      "lighthouseRuns": [],
+      "lighthouseRuns": [
+        {
+          "performance": 98,
+          "accessibility": 100,
+          "lcp": 1285,
+          "tbt": 141,
+          "cls": 0
+        },
+        {
+          "performance": 99,
+          "accessibility": 100,
+          "lcp": 1279,
+          "tbt": 128,
+          "cls": 0
+        },
+        {
+          "performance": 99,
+          "accessibility": 100,
+          "lcp": 1237,
+          "tbt": 132,
+          "cls": 0
+        }
+      ],
       "interaction": {
         "pan": {
           "longTasks": 0,
           "longTaskMs": 0,
           "longFrames": 0,
-          "frames": 104,
+          "frames": 105,
           "p95Frame": 17
         },
         "pinch": {
           "longTasks": 0,
           "longTaskMs": 0,
           "longFrames": 0,
-          "frames": 103,
+          "frames": 102,
           "p95Frame": 17
         },
         "dive": {
-          "longTasks": 1,
-          "longTaskMs": 92,
+          "longTasks": 2,
+          "longTaskMs": 124,
           "longFrames": 1,
-          "frames": 177,
+          "frames": 172,
           "p95Frame": 17
         }
       }
     },
     {
       "app": "r3f-3d",
-      "buildMs": 1442,
+      "buildMs": 1428,
       "jsTotal": {
         "raw": 1233413,
         "gzip": 341487,
@@ -243,31 +315,53 @@
       },
       "requests": 10,
       "lighthouse": {
-        "performance": null,
-        "accessibility": null,
-        "lcp": null,
-        "tbt": null,
-        "cls": null
+        "performance": 69,
+        "accessibility": 100,
+        "lcp": 1551,
+        "tbt": 3822,
+        "cls": 0.001
       },
-      "lighthouseRuns": [],
+      "lighthouseRuns": [
+        {
+          "performance": 69,
+          "accessibility": 100,
+          "lcp": 1551,
+          "tbt": 3752,
+          "cls": 0.001
+        },
+        {
+          "performance": 69,
+          "accessibility": 100,
+          "lcp": 1555,
+          "tbt": 3920,
+          "cls": 0.001
+        },
+        {
+          "performance": 69,
+          "accessibility": 100,
+          "lcp": 1502,
+          "tbt": 3822,
+          "cls": 0.001
+        }
+      ],
       "interaction": {
         "pan": {
-          "longTasks": 24,
-          "longTaskMs": 1260,
-          "longFrames": 3,
+          "longTasks": 13,
+          "longTaskMs": 681,
+          "longFrames": 2,
           "frames": 138,
           "p95Frame": 50
         },
         "pinch": {
           "longTasks": 38,
           "longTaskMs": 2248,
-          "longFrames": 10,
-          "frames": 137,
+          "longFrames": 6,
+          "frames": 133,
           "p95Frame": 50
         },
         "dive": {
-          "longTasks": 28,
-          "longTaskMs": 1643,
+          "longTasks": 27,
+          "longTaskMs": 1562,
           "longFrames": 18,
           "frames": 126,
           "p95Frame": 67
