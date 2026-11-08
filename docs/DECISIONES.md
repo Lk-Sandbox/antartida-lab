@@ -2,7 +2,7 @@
 
 Diferencias respecto del prototipo (`docs/handoff/design/Main.dc.html`) y entre stacks, y por qué.
 
-> La app es **preact-vite**. Las secciones de los otros stacks son historia del laboratorio: esas apps están en `archive/` y su último estado funcional está en la etiqueta git `lab-comparacion`.
+> La app es **preact-vite**. Las secciones de los otros stacks son historia del laboratorio: esas apps ya no están en el repo y su último estado funcional se recupera con la etiqueta git `lab-comparacion` (ver `docs/lab/README.md`).
 
 ## Comunes a todas las apps
 

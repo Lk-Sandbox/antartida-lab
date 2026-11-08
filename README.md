@@ -4,7 +4,7 @@ Equipo **DOT ENV**, hackatón SoberaníaTech (Ushuaia, 2026).
 
 *Antártida por descubrir* es un mapa pintado de la Antártida con una expedición educativa: los fósiles de Isla Marambio (pregunta, excavación, comparación, conclusión y regreso). El diseño y el comportamiento están en [`docs/handoff/`](docs/handoff/HANDOFF.md).
 
-La app es **`apps/preact-vite`**: Vite + Preact 11, con los componentes de `packages/react-ui` sobre `preact/compat`. Se eligió después de comparar cinco stacks: era la más liviana (16 kB de JS inicial) y la más rápida. La comparación está congelada en [`docs/lab/COMPARACION.md`](docs/lab/COMPARACION.md) y las otras apps quedaron en [`archive/`](archive/README.md).
+La app es **`apps/preact-vite`**: Vite + Preact 11, con los componentes de `packages/react-ui` sobre `preact/compat`. Se eligió después de comparar cinco stacks: era la más liviana (16 kB de JS inicial) y la más rápida. La comparación está congelada en [`docs/lab/COMPARACION.md`](docs/lab/COMPARACION.md); las otras apps se pueden recuperar desde la etiqueta git `lab-comparacion` (ver [`docs/lab/README.md`](docs/lab/README.md)).
 
 ## Estructura
 
@@ -16,12 +16,11 @@ packages/
   react-ui/         componentes de la interfaz (React API, corren sobre preact/compat)
   e2e/              tests de flujo con Playwright
 scripts/bench/      benchmark de rendimiento → docs/RENDIMIENTO.md
-archive/            apps del laboratorio de stacks (congeladas, fuera del workspace)
 docs/
   handoff/          especificación de diseño y prototipo
   DECISIONES.md     diferencias con el prototipo y por qué
   RENDIMIENTO.md    resultado del último benchmark
-  lab/              comparación de stacks (congelada) y sus capturas
+  lab/              comparación de stacks (congelada)
 ```
 
 Dónde se toca cada cosa:

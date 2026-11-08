@@ -1,4 +1,4 @@
-/** Fixed dev/preview port per app (the stack lab's other apps are archived in archive/). */
+/** Fixed dev/preview port per app. */
 export const APPS = {
   'preact-vite': 5103,
 } as const;

@@ -13,9 +13,6 @@ scripts/bench/.cache/
 .env
 .env.*
 
-# Original del handoff: la copia versionada vive en docs/handoff/
-/antartida-handoff/
-
 # Memoria local de agentes
 .projectmem/
 .codegraph/
