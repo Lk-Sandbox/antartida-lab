@@ -1,0 +1,3 @@
+/* The tilt is a real camera move here, so the stage only fades out at the end of the descent. */
+.stage.dive{animation:r3f-dive 1.5s ease-in forwards}
+@keyframes r3f-dive{0%,72%{opacity:1}100%{opacity:0}}

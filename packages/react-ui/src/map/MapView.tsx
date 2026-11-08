@@ -1,8 +1,8 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent, type WheelEvent } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ComponentType, type KeyboardEvent, type PointerEvent, type WheelEvent } from 'react';
 import {
   DRAG_THRESHOLD, EXPEDITION_POINT, HOME, MAP_OCEAN, PTS, ZOOM_MS,
   buildMarkers, diveView, geometry, keyView, layerTransform, loadMapLand, panBy, zoomAround, zoomCenter,
-  type MapPoint, type Marker, type Size, type View,
+  type Geometry, type MapPoint, type Marker, type Size, type View,
 } from '@antartida/core';
 import { useTimers } from '../hooks.ts';
 import { Icon } from '../ui.tsx';
@@ -13,7 +13,7 @@ import { Markers } from './Markers.tsx';
 import { PointSheet } from './PointSheet.tsx';
 
 export type Phase = 'idle' | 'dive' | 'fade' | 'ret';
-type Anim = '' | 'zoom' | 'dive';
+export type Anim = '' | 'zoom' | 'dive';
 
 export interface MapViewProps {
   phase: Phase;
@@ -24,6 +24,20 @@ export interface MapViewProps {
   focusExpedition: boolean;
   onToggleLegend: () => void;
   onStart: () => void;
+  /** Renders the map itself and its markers (painted SVG by default). */
+  layer?: ComponentType<LayerProps>;
+  /** No map available (e.g. no WebGL): the list is the main view and cannot be closed. */
+  forceList?: boolean;
+}
+
+export interface LayerProps {
+  size: Size;
+  geo: Geometry;
+  view: View;
+  anim: Anim;
+  phase: Phase;
+  markers: Marker[];
+  onPick: (m: Marker) => void;
 }
 
 const LAYER_TRANSITION: Record<Anim, string> = {
@@ -32,7 +46,37 @@ const LAYER_TRANSITION: Record<Anim, string> = {
   dive: 'transform 1.5s cubic-bezier(.55,0,.3,1)',
 };
 
-export function MapView({ phase, explored, toast, legend, focusExpedition, onToggleLegend, onStart }: MapViewProps) {
+/** Default layer: the painted SVG map with HTML markers on top. */
+export function SvgLayer({ geo, view, anim, phase, markers, onPick }: LayerProps) {
+  const [land, setLand] = useState('');
+  useEffect(() => {
+    let alive = true;
+    loadMapLand().then((html) => alive && setLand(html));
+    return () => { alive = false; };
+  }, []);
+  return (
+    <>
+      <div
+        className="layer"
+        style={{ width: geo.S, height: geo.S, transform: layerTransform(geo, view), transition: LAYER_TRANSITION[anim] }}
+      >
+        <svg viewBox="0 0 1000 1000" aria-hidden="true" focusable="false">
+          <g dangerouslySetInnerHTML={{ __html: MAP_OCEAN }} />
+          <g dangerouslySetInnerHTML={{ __html: land }} />
+        </svg>
+      </div>
+      <Markers
+        markers={markers}
+        className={'ov' + (anim === 'zoom' ? ' zooming' : '') + (phase === 'dive' ? ' hide' : '')}
+        onPick={onPick}
+      />
+    </>
+  );
+}
+
+export function MapView({
+  phase, explored, toast, legend, focusExpedition, onToggleLegend, onStart, layer: Layer = SvgLayer, forceList = false,
+}: MapViewProps) {
   const vpRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState<Size>({ vw: 390, vh: 844 });
   const [view, setView] = useState<View>(HOME);
@@ -40,7 +84,6 @@ export function MapView({ phase, explored, toast, legend, focusExpedition, onTog
   const [touched, setTouched] = useState(false);
   const [sheet, setSheet] = useState<MapPoint | null>(null);
   const [list, setList] = useState(false);
-  const [land, setLand] = useState('');
   const later = useTimers();
 
   const live = useRef({ size, view, phase });
@@ -61,12 +104,6 @@ export function MapView({ phase, explored, toast, legend, focusExpedition, onTog
     const ro = new ResizeObserver(measure);
     ro.observe(el);
     return () => ro.disconnect();
-  }, []);
-
-  useEffect(() => {
-    let alive = true;
-    loadMapLand().then((html) => alive && setLand(html));
-    return () => { alive = false; };
   }, []);
 
   useEffect(() => {
@@ -197,20 +234,7 @@ export function MapView({ phase, explored, toast, legend, focusExpedition, onTog
           onWheel={onWheel}
           onKeyDown={onKey}
         >
-          <div
-            className="layer"
-            style={{ width: geo.S, height: geo.S, transform: layerTransform(geo, view), transition: LAYER_TRANSITION[anim] }}
-          >
-            <svg viewBox="0 0 1000 1000" aria-hidden="true" focusable="false">
-              <g dangerouslySetInnerHTML={{ __html: MAP_OCEAN }} />
-              <g dangerouslySetInnerHTML={{ __html: land }} />
-            </svg>
-          </div>
-          <Markers
-            markers={markers}
-            className={'ov' + (anim === 'zoom' ? ' zooming' : '') + (phase === 'dive' ? ' hide' : '')}
-            onPick={onPick}
-          />
+          {!forceList && <Layer size={size} geo={geo} view={view} anim={anim} phase={phase} markers={markers} onPick={onPick} />}
         </div>
 
         <svg className="grain" aria-hidden="true" focusable="false"><rect width="100%" height="100%" filter="url(#paperf)" /></svg>
@@ -241,14 +265,14 @@ export function MapView({ phase, explored, toast, legend, focusExpedition, onTog
           </div>
         </div>
 
-        {sheet && <PointSheet point={sheet} onClose={() => setSheet(null)} fallbackFocus={() => vpRef.current} />}
-        {list && (
+        {(list || forceList) && (
           <ListView
             explored={explored}
-            onClose={() => setList(false)}
+            onClose={forceList ? undefined : () => setList(false)}
             onPick={(p) => { setList(false); openPoint(p); }}
           />
         )}
+        {sheet && <PointSheet point={sheet} onClose={() => setSheet(null)} fallbackFocus={() => vpRef.current} />}
       </div>
       <div className={'veil' + (phase === 'dive' ? ' on' : '')} />
     </div>

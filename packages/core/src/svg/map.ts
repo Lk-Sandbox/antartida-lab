@@ -24,6 +24,6 @@ export const MAP_OCEAN = `<circle cx="500" cy="500" r="600" fill="#2B5276" opaci
 /** Natural Earth coastline plus sea and region labels, drawn over MAP_OCEAN. */
 export const loadMapLand = (): Promise<string> => import('./land.ts').then((m) => m.MAP_LAND);
 
-/** Standalone SVG document of the map (for rasterizing to a texture). */
-export const mapSvgDocument = async (size = 2048) =>
-  `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 1000 1000"><defs>${SVG_DEFS}</defs>${MAP_OCEAN}${await loadMapLand()}</svg>`;
+/** Standalone SVG document of the map, with `pad` map units of margin (for rasterizing to a texture). */
+export const mapSvgDocument = async (size = 2048, pad = 0) =>
+  `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="${-pad} ${-pad} ${1000 + 2 * pad} ${1000 + 2 * pad}"><defs>${SVG_DEFS}</defs>${MAP_OCEAN}${await loadMapLand()}</svg>`;

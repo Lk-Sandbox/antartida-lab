@@ -1,5 +1,5 @@
 {
-  "date": "2026-11-08T19:00:38.556Z",
+  "date": "2026-11-08T19:09:50.215Z",
   "machine": "Intel(R) Core(TM) Ultra 5 125H × 18",
   "chromium": "Chromium 156.0.8078.47 Arch Linux",
   "results": [
@@ -220,6 +220,57 @@
           "longFrames": 1,
           "frames": 177,
           "p95Frame": 17
+        }
+      }
+    },
+    {
+      "app": "r3f-3d",
+      "buildMs": 1442,
+      "jsTotal": {
+        "raw": 1233413,
+        "gzip": 341487,
+        "brotli": 284193
+      },
+      "jsInitial": {
+        "raw": 245745,
+        "gzip": 76958,
+        "brotli": 66397
+      },
+      "css": {
+        "raw": 20689,
+        "gzip": 4895,
+        "brotli": 4367
+      },
+      "requests": 10,
+      "lighthouse": {
+        "performance": null,
+        "accessibility": null,
+        "lcp": null,
+        "tbt": null,
+        "cls": null
+      },
+      "lighthouseRuns": [],
+      "interaction": {
+        "pan": {
+          "longTasks": 24,
+          "longTaskMs": 1260,
+          "longFrames": 3,
+          "frames": 138,
+          "p95Frame": 50
+        },
+        "pinch": {
+          "longTasks": 38,
+          "longTaskMs": 2248,
+          "longFrames": 10,
+          "frames": 137,
+          "p95Frame": 50
+        },
+        "dive": {
+          "longTasks": 28,
+          "longTaskMs": 1643,
+          "longFrames": 18,
+          "frames": 126,
+          "p95Frame": 67
         }
       }
     }

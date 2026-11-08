@@ -1,13 +1,13 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState, type ComponentType } from 'react';
 import { DIVE_MS, FADE_MS, RETURN_MS, RETURN_TOAST, TOAST_MS, loadExplored, saveExplored } from '@antartida/core';
 import { useReducedMotion, useTimers } from './hooks.ts';
-import { MapView, type Phase } from './map/MapView.tsx';
+import { MapView, type LayerProps, type Phase } from './map/MapView.tsx';
 import { Filters } from './ui.tsx';
 
 const loadExpedition = () => import('./expedition/Expedition.tsx');
 const Expedition = lazy(() => loadExpedition().then((m) => ({ default: m.Expedition })));
 
-export function AntarcticaApp() {
+export function AntarcticaApp({ layer, forceList }: { layer?: ComponentType<LayerProps>; forceList?: boolean } = {}) {
   const [screen, setScreen] = useState<'map' | 'exp'>('map');
   const [phase, setPhase] = useState<Phase>('idle');
   const [explored, setExplored] = useState(false);
@@ -55,6 +55,8 @@ export function AntarcticaApp() {
           focusExpedition={returned}
           onToggleLegend={() => setLegend((l) => !l)}
           onStart={start}
+          layer={layer}
+          forceList={forceList}
         />
       ) : (
         <Suspense fallback={null}>

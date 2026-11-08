@@ -1,5 +1,21 @@
+import type { CSSProperties } from 'react';
 import type { Marker } from '@antartida/core';
 import { Icon } from '../ui.tsx';
+
+export function MarkerButton({ m, style, onPick }: { m: Marker; style: CSSProperties; onPick: (m: Marker) => void }) {
+  return (
+    <button type="button" className={m.cls} style={style} onClick={() => onPick(m)} aria-label={m.aria}>
+      <span className="dot">
+        {m.kind === 'cluster' && m.count}
+        {m.kind === 'point' && m.pulse && <span className="pulse" />}
+        {m.kind === 'point' && m.check && Icon.check}
+      </span>
+      {m.kind === 'point' && m.label && (
+        <span className="mlabel"><strong>{m.label.title}</strong><span>{m.label.sub}</span></span>
+      )}
+    </button>
+  );
+}
 
 export function Markers({ markers, className, onPick }: {
   markers: Marker[];
@@ -8,25 +24,7 @@ export function Markers({ markers, className, onPick }: {
 }) {
   return (
     <div className={className}>
-      {markers.map((m) => (
-        <button
-          key={m.key}
-          type="button"
-          className={m.cls}
-          style={{ left: m.left + 'px', top: m.top + 'px' }}
-          onClick={() => onPick(m)}
-          aria-label={m.aria}
-        >
-          <span className="dot">
-            {m.kind === 'cluster' && m.count}
-            {m.kind === 'point' && m.pulse && <span className="pulse" />}
-            {m.kind === 'point' && m.check && Icon.check}
-          </span>
-          {m.kind === 'point' && m.label && (
-            <span className="mlabel"><strong>{m.label.title}</strong><span>{m.label.sub}</span></span>
-          )}
-        </button>
-      ))}
+      {markers.map((m) => <MarkerButton key={m.key} m={m} style={{ left: m.left + 'px', top: m.top + 'px' }} onPick={onPick} />)}
     </div>
   );
 }

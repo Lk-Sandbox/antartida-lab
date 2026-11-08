@@ -10,7 +10,8 @@ const GROUPS: { tier: Tier; id: string; tag: string; label?: string; desc: strin
 
 export function ListView({ explored, onClose, onPick }: {
   explored: boolean;
-  onClose: () => void;
+  /** Omitted when the list is the only view (no map to go back to). */
+  onClose?: () => void;
   onPick: (p: MapPoint) => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -22,12 +23,12 @@ export function ListView({ explored, onClose, onPick }: {
       aria-modal="true"
       aria-labelledby="list-title"
       ref={ref}
-      onKeyDown={(e) => e.key === 'Escape' && onClose()}
+      onKeyDown={(e) => e.key === 'Escape' && onClose?.()}
     >
       <div className="inner">
         <div className="listhead">
           <h2 id="list-title">Todos los puntos</h2>
-          <button type="button" className="btn" onClick={onClose}>Ver mapa</button>
+          {onClose && <button type="button" className="btn" onClick={onClose}>Ver mapa</button>}
         </div>
         {GROUPS.map((g) => (
           <section key={g.tier} aria-labelledby={g.id}>

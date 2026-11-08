@@ -12,6 +12,7 @@ Fecha: 2026-11-08 · Máquina: Intel(R) Core(TM) Ultra 5 125H × 18 · Chromium 
 | astro-react | sí (100) | sí (78.5 kB) | ver `pnpm e2e` |
 | preact-vite | **no** (—) | sí (16.0 kB) | ver `pnpm e2e` |
 | svelte-vite | **no** (—) | sí (24.6 kB) | ver `pnpm e2e` |
+| r3f-3d | **no** (—) | sí (75.2 kB) | ver `pnpm e2e` |
 
 ## Peso (kB)
 
@@ -23,6 +24,7 @@ JS inicial = scripts del HTML (y de las islas de Astro) más todo lo que importa
 | astro-react | 245.5 | 78.5 | 68.1 | 298.4 | 97.2 | 83.3 | 20.2 | 4.8 | 4.3 |
 | preact-vite | 42.0 | 16.0 | 14.5 | 98.4 | 36.6 | 31.3 | 20.2 | 4.8 | 4.3 |
 | svelte-vite | 64.3 | 24.6 | 22.1 | 124.5 | 47.0 | 40.5 | 20.2 | 4.8 | 4.3 |
+| r3f-3d | 240.0 | 75.2 | 64.8 | 1204.5 | 333.5 | 277.5 | 20.2 | 4.8 | 4.3 |
 
 ## Build y red
 
@@ -32,6 +34,7 @@ JS inicial = scripts del HTML (y de las islas de Astro) más todo lo que importa
 | astro-react | 2.1 | 12 |
 | preact-vite | 1.0 | 9 |
 | svelte-vite | 1.4 | 9 |
+| r3f-3d | 1.4 | 10 |
 
 ## Lighthouse (mobile, throttling por defecto, mediana de 3)
 
@@ -41,6 +44,7 @@ JS inicial = scripts del HTML (y de las islas de Astro) más todo lo que importa
 | astro-react | 99 | 100 | 756 | 133 | 0.002 |
 | preact-vite | — | — | — | — | — |
 | svelte-vite | — | — | — | — | — |
+| r3f-3d | — | — | — | — | — |
 
 ## Interacción con CPU 4x (390 px, táctil)
 
@@ -52,6 +56,7 @@ Formato: tareas largas (tiempo total) · frames > 50 ms / frames medidos · p95 
 | astro-react | 0 (0 ms) · 0/105 · p95 17 ms | 0 (0 ms) · 0/104 · p95 17 ms | 1 (85 ms) · 1/175 · p95 17 ms |
 | preact-vite | 0 (0 ms) · 0/104 · p95 17 ms | 0 (0 ms) · 0/102 · p95 17 ms | 1 (80 ms) · 1/179 · p95 17 ms |
 | svelte-vite | 0 (0 ms) · 0/104 · p95 17 ms | 0 (0 ms) · 0/103 · p95 17 ms | 1 (92 ms) · 1/177 · p95 17 ms |
+| r3f-3d | 24 (1260 ms) · 3/138 · p95 50 ms | 38 (2248 ms) · 10/137 · p95 50 ms | 28 (1643 ms) · 18/126 · p95 67 ms |
 
 ## Capturas
 

@@ -28,4 +28,11 @@ export const NOTES: Record<string, string> = {
 
 **Experiencia de desarrollo.** Rápida y agradable, pero con una trampa de reactividad: un \`$effect\` que lee \`s.step\` de un \`$state.raw\` depende del objeto entero y se volvía a ejecutar en cada acción, robándole el foco a la tarjeta de evidencia. Se resolvió con un \`$derived\`. Lo atrapó el test de teclado, no la revisión visual.
 `,
+  'r3f-3d': `
+**Ventajas.** La "bajada" deja de ser un truco de CSS (\`rotateX\` sobre un plano) y pasa a ser una cámara en perspectiva que vuela hasta Marambio: es la versión con más impacto visual. El pan y el zoom mueven solo la cámara sobre una textura ya rasterizada, así que los filtros SVG (\`feTurbulence\`) se pagan una sola vez y no en cada frame. Todo lo demás (encabezado, fichas, lista, expedición) es \`react-ui\` sin cambios, y la cámara cenital encuadra el plano igual que la capa 2D, de modo que clustering, etiquetas y gestos salen de \`core\`.
+
+**Desventajas.** Es, con diferencia, la más pesada: three.js + React Three Fiber suman unos 250 kB gzip en un chunk diferido, porque R3F registra todo el namespace de THREE y no se puede recortar importando solo \`Html\` de drei. El texto del mapa se rasteriza sin las tipografías propias (una imagen SVG no puede cargar fuentes externas) y con zoom alto la textura se ve más blanda que el SVG vectorial. Necesita WebGL: sin él cae a la vista de lista.
+
+**Experiencia de desarrollo.** Lo más delicado fue integrar \`Html\` de drei con un shell React existente: por defecto se cuelga del contenedor del canvas y al desmontar el mapa tiraba \`removeChild\`; se resolvió con un \`portal\` propio. Mapear el estado 2D (\`k\`, \`px\`, \`py\`) a una pose de cámara fue una sola fórmula y evitó duplicar la lógica de gestos.
+`,
 };

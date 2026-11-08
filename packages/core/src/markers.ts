@@ -9,6 +9,10 @@ export const LABELS_MIN_PX = 640;
 
 interface MarkerBase {
   key: string;
+  /** Position in map space (0..1000), for renderers that project it themselves (3D). */
+  x: number;
+  y: number;
+  /** Position in screen px for the current view. */
   left: number;
   top: number;
   cls: string;
@@ -47,6 +51,7 @@ export function buildMarkers(size: Size, view: View, explored: boolean, points: 
       markers.push({
         kind: 'cluster',
         key: 'c:' + group.map((g) => g.id).join(','),
+        ...c,
         ...pos,
         count: group.length,
         cls: 'mk cluster' + (group.some((g) => g.tier === 'A') ? ' has-a' : ''),
@@ -61,6 +66,8 @@ export function buildMarkers(size: Size, view: View, explored: boolean, points: 
     markers.push({
       kind: 'point',
       key: p.id,
+      x: p.x,
+      y: p.y,
       ...toScreen(geo, view, p.x, p.y),
       point: p,
       pulse: isA && !done,
