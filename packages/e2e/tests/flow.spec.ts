@@ -113,6 +113,7 @@ test('completes the expedition with the keyboard only', async ({ page }) => {
     await expect(page.getByRole('dialog')).toContainText(`hallazgo ${spot} de 3`);
     await expectFocused(page, spot < 3 ? 'Seguir excavando' : 'Comparar evidencias');
     await page.keyboard.press('Enter');
+    await expect(page.getByRole('dialog')).toHaveCount(0);
   }
 
   await expect(page.getByRole('heading', { name: 'Comparar evidencias' })).toBeFocused();
