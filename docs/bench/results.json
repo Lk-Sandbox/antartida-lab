@@ -1,5 +1,5 @@
 {
-  "date": "2026-11-08T18:42:56.233Z",
+  "date": "2026-11-08T18:48:36.778Z",
   "machine": "Intel(R) Core(TM) Ultra 5 125H × 18",
   "chromium": "Chromium 156.0.8078.47 Arch Linux",
   "results": [
@@ -58,6 +58,65 @@
           "longTaskMs": 77,
           "longFrames": 1,
           "frames": 176,
+          "p95Frame": 17
+        }
+      }
+    },
+    {
+      "app": "astro-react",
+      "buildMs": 2064,
+      "jsTotal": {
+        "raw": 305524,
+        "gzip": 99538,
+        "brotli": 85327
+      },
+      "jsInitial": {
+        "raw": 251396,
+        "gzip": 80389,
+        "brotli": 69720
+      },
+      "css": {
+        "raw": 20651,
+        "gzip": 4879,
+        "brotli": 4359
+      },
+      "requests": 12,
+      "lighthouse": {
+        "performance": 99,
+        "accessibility": 100,
+        "lcp": 756,
+        "tbt": 133,
+        "cls": 0.002
+      },
+      "lighthouseRuns": [
+        {
+          "performance": 99,
+          "accessibility": 100,
+          "lcp": 756,
+          "tbt": 133,
+          "cls": 0.002
+        }
+      ],
+      "interaction": {
+        "pan": {
+          "longTasks": 0,
+          "longTaskMs": 0,
+          "longFrames": 0,
+          "frames": 105,
+          "p95Frame": 17
+        },
+        "pinch": {
+          "longTasks": 0,
+          "longTaskMs": 0,
+          "longFrames": 0,
+          "frames": 104,
+          "p95Frame": 17
+        },
+        "dive": {
+          "longTasks": 1,
+          "longTaskMs": 85,
+          "longFrames": 1,
+          "frames": 175,
           "p95Frame": 17
         }
       }

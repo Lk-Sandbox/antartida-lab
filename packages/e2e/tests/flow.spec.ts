@@ -42,11 +42,20 @@ const focusedName = (page: Page) =>
     return el ? (el.getAttribute('aria-label') ?? el.textContent ?? '').trim() : '';
   });
 
+let consoleErrors: string[] = [];
+
 test.beforeEach(async ({ page }) => {
+  consoleErrors = [];
+  page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(m.text()); });
+  page.on('pageerror', (e) => consoleErrors.push(e.message));
   await page.goto('/');
   await page.evaluate(() => localStorage.clear());
   await page.reload();
   await expect(log(page)).toContainText('0/1');
+});
+
+test.afterEach(() => {
+  expect(consoleErrors, 'console errors (hydration mismatches, exceptions)').toEqual([]);
 });
 
 test('completes the expedition with pointer and persists the log', async ({ page }) => {

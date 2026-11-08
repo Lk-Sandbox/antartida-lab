@@ -7,4 +7,11 @@ export const NOTES: Record<string, string> = {
 
 **Experiencia de desarrollo.** Sin sorpresas. TypeScript, el reducer puro de \`core\` y \`useReducer\` encajan bien. Lo único fino fue la gestión de foco (devolverlo al disparador al cerrar diálogos) y separar los handlers de gestos con refs para no leer estado viejo.
 `,
+  'astro-react': `
+**Ventajas.** Los mismos componentes, sin cambios, salen prerenderizados en el HTML del build (SSG): el mapa, la leyenda y los botones están en la página antes de que llegue el JS, y la isla los hidrata. Para un deploy estático (lo que pide el handoff) es lo más natural, y deja espacio para sumar páginas de contenido (créditos, fuentes, Content Collections) sin JS.
+
+**Desventajas.** Como toda la app es una sola isla interactiva, Astro no ahorra JS: suma su runtime de islas y la hidratación queda algo por encima de la referencia. El build tarda más que Vite solo. Hay que cuidar que nada del primer render dependa de \`window\` (la persistencia de \`explored\` se lee recién en un efecto, para no romper la hidratación).
+
+**Experiencia de desarrollo.** Integración con React sin fricción: una página \`.astro\` de 20 líneas. La sorpresa fue el CLI: \`astro preview\` detecta que lo corre un agente y se va a segundo plano, lo que rompe a Playwright; se resolvió con \`--ignore-lock\`.
+`,
 };
