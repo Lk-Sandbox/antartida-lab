@@ -21,4 +21,11 @@ export const NOTES: Record<string, string> = {
 
 **Experiencia de desarrollo.** Sin \`@preact/preset-vite\` (que pide Babel); alcanzó con alias y el runtime JSX automático de Vite. El tipado se hace contra \`@types/react\`, así que el editor no avisa si se usa algo que compat no soporta: la red de seguridad son los E2E.
 `,
+  'svelte-vite': `
+**Ventajas.** Sin runtime de framework pesado: el JS inicial queda muy cerca del de Preact, con componentes que compilan a actualizaciones de DOM directas (en el pan solo cambian el \`transform\` y la posición de los marcadores, sin diff de árbol virtual). Las runes (\`$state\`, \`$derived\`, \`$effect\`) hacen corto el código de estado y la lógica pura de \`core\` se reutiliza entera. Las acciones (\`use:focusReturn\`) resuelven el foco de los diálogos en un solo lugar.
+
+**Desventajas.** Es una reescritura completa: 15 componentes que hay que mantener en paralelo con \`react-ui\`. El SVG inyectado necesitó una acción propia porque \`{@html}\` no es cómodo dentro de \`<svg>\`. El linter de accesibilidad de Svelte marca patrones que pide el handoff (\`<section role="dialog">\`, mapa \`role="application"\` enfocable) y hubo que silenciarlos puntualmente.
+
+**Experiencia de desarrollo.** Rápida y agradable, pero con una trampa de reactividad: un \`$effect\` que lee \`s.step\` de un \`$state.raw\` depende del objeto entero y se volvía a ejecutar en cada acción, robándole el foco a la tarjeta de evidencia. Se resolvió con un \`$derived\`. Lo atrapó el test de teclado, no la revisión visual.
+`,
 };
