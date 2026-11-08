@@ -9,4 +9,5 @@ export * from './expedition.ts';
 export * from './storage.ts';
 export * from './motion.ts';
 export * from './svg/filters.ts';
+export * from './svg/map.ts';
 export * from './svg/art.ts';

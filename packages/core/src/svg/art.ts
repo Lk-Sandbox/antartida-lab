@@ -1,64 +1,6 @@
-import { ANTARCTICA_PATH, ICE_SHELF_SEAM, ICE_SHELVES_PATH, SOUTH_AMERICA_PATH } from '../coastline.ts';
 import type { FossilKind } from '../content/fossils.ts';
-import { SVG_DEFS } from './filters.ts';
 
-/**
- * Static SVG markup shared by every stack (injected as innerHTML), copied from the
- * prototype. Only the coastline and a few label positions differ (see docs/DECISIONES.md).
- */
-
-/** Body of the map <svg viewBox="0 0 1000 1000">. */
-export const MAP_SVG = `<circle cx="500" cy="500" r="600" fill="#2B5276" opacity="0.18" filter="url(#bleed)"></circle>
-<circle cx="500" cy="505" r="548" fill="url(#ocean)" filter="url(#wc)" opacity="0.94"></circle>
-<circle cx="490" cy="490" r="470" fill="#6C98B9" opacity="0.22" filter="url(#bleed)"></circle>
-<g fill="none" stroke="#DCE7EE" stroke-width="1.1" opacity="0.5" filter="url(#ink)">
-<circle cx="500" cy="500" r="426" stroke-dasharray="4 7"></circle>
-<circle cx="500" cy="500" r="280" stroke-dasharray="4 7"></circle>
-<circle cx="500" cy="500" r="139" stroke-dasharray="4 7"></circle>
-<path d="M500,500 L500,-40 M500,500 L1040,500 M500,500 L500,1040 M500,500 L-40,500 M500,500 L120,120 M500,500 L880,120 M500,500 L880,880 M500,500 L120,880"></path>
-</g>
-<g font-family="Caveat, cursive" font-size="17" fill="#E6EEF3" opacity="0.85">
-<text x="508" y="70">0° Greenwich</text>
-<text x="74" y="78" transform="rotate(-45 74 78)">60° S</text>
-</g>
-<path d="M500,58 L500,22 M492,34 L500,20 L508,34" stroke="#F7FAFB" stroke-width="2.2" fill="none" stroke-linecap="round" filter="url(#ink)"></path>
-<path d="${ANTARCTICA_PATH}${ICE_SHELVES_PATH}" fill="#A9C6DA" filter="url(#bleed)" opacity="0.9"></path>
-<g filter="url(#wcs)">
-<path d="${ICE_SHELVES_PATH}" fill="#E4EEF4"></path>
-<path d="${ICE_SHELF_SEAM}" stroke="#E4EEF4" stroke-width="3"></path>
-<path d="${ANTARCTICA_PATH}" fill="url(#ice)"></path>
-</g>
-<g fill="none" stroke="#9FBDD1" stroke-width="2" stroke-linecap="round" opacity="0.7" filter="url(#ink)">
-<path d="M560,300 C620,330 680,380 720,450"></path>
-<path d="M600,560 C640,600 690,640 730,700"></path>
-<path d="M330,470 C360,520 380,560 400,590"></path>
-<path d="M610,470 C650,500 690,520 760,530"></path>
-</g>
-<g filter="url(#ink)" fill="none" stroke-linejoin="round">
-<path d="${ICE_SHELVES_PATH}" stroke="#1F2A36" stroke-width="1" opacity="0.55"></path>
-<path d="${ICE_SHELF_SEAM}" stroke="#E4EEF4" stroke-width="3"></path>
-<path d="${ANTARCTICA_PATH}" stroke="#1F2A36" stroke-width="1.6"></path>
-</g>
-<path d="${SOUTH_AMERICA_PATH}" fill="#D9C49C" stroke="#1F2A36" stroke-width="1.5" filter="url(#wcs)"></path>
-<path d="M36,318 C80,350 140,348 190,306" fill="none" stroke="#F7FAFB" stroke-width="5" stroke-linecap="round" opacity="0.5"></path>
-<path d="M36,318 C80,350 140,348 190,306" fill="none" stroke="#A4471F" stroke-width="2.4" stroke-dasharray="2 9" stroke-linecap="round"></path>
-<g font-family="Caveat, cursive" fill="#F7FAFB">
-<text x="50" y="404" font-size="22" transform="rotate(-12 50 404)">Pasaje de Drake</text>
-<text x="252" y="258" font-size="20" transform="rotate(10 252 258)">Mar de Weddell</text>
-<text x="470" y="830" font-size="22">Mar de Ross</text>
-<text x="190" y="640" font-size="19" transform="rotate(48 190 640)">Mar de Amundsen</text>
-<text x="760" y="160" font-size="24" opacity="0.9">Océano Austral</text>
-</g>
-<g font-family="Fraunces, Georgia, serif" font-style="italic" fill="#3B5A73" opacity="0.75">
-<text x="590" y="440" font-size="22">Antártida Oriental</text>
-<text x="330" y="500" font-size="18">Antártida</text>
-<text x="330" y="520" font-size="18">Occidental</text>
-</g>
-<text x="-6" y="378" font-family="Caveat, cursive" font-size="18" fill="#F7FAFB">Ushuaia</text>`;
-
-/** Standalone SVG document of the map (for rasterizing to a texture). */
-export const mapSvgDocument = (size = 2048) =>
-  `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 1000 1000"><defs>${SVG_DEFS}</defs>${MAP_SVG}</svg>`;
+/** Expedition art, copied from the prototype (injected as innerHTML in every stack). */
 
 export const SCENE_SKY = `<rect width="400" height="700" fill="url(#sky)"></rect>
 <g class="cloud" filter="url(#bleed)" fill="#F7FAFB" opacity="0.85">
