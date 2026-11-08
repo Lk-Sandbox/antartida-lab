@@ -20,3 +20,4 @@ scripts/bench/.cache/
 # Memoria local de agentes
 .projectmem/
 .codegraph/
+packages/core/.cache/
