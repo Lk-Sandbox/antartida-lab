@@ -92,3 +92,19 @@ export function toScreen({ S, ox, oy }: Geometry, view: View, x: number, y: numb
   const sc = (S * view.k) / MAP_SIZE;
   return { left: ox + view.px + x * sc, top: oy + view.py + y * sc };
 }
+
+/** Line-mode wheel deltas (Firefox mouse wheels) are ~1/33 of pixel-mode ones. */
+const LINE_HEIGHT = 33;
+const WHEEL_SENSITIVITY = 0.0018;
+
+/**
+ * Zoom factor for a wheel event, proportional to its delta: a mouse notch (~100 px) zooms ~20%,
+ * a trackpad pinch (many small ctrl+wheel deltas) zooms smoothly. Clamped so one event never jumps.
+ */
+export function wheelFactor(deltaY: number, deltaMode = 0): number {
+  const px = deltaMode === 1 ? deltaY * LINE_HEIGHT : deltaY;
+  return Math.exp(-Math.max(-150, Math.min(150, px)) * WHEEL_SENSITIVITY);
+}
+
+/** Discrete mouse-wheel notches get a short eased transition; trackpad streams apply directly. */
+export const isWheelNotch = (deltaY: number, deltaMode = 0) => deltaMode === 1 || Math.abs(deltaY) >= 50;

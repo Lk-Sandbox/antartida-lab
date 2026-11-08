@@ -8,11 +8,11 @@ Fecha: 2026-11-08 · Máquina: Intel(R) Core(TM) Ultra 5 125H × 18 · Chromium 
 
 | App | Accesibilidad ≥ 95 | JS inicial < 80 kB gzip | E2E |
 |---|---|---|---|
-| react-vite | sí (100) | sí (74.6 kB) | ver `pnpm e2e` |
-| astro-react | sí (100) | sí (78.7 kB) | ver `pnpm e2e` |
-| preact-vite | sí (100) | sí (16.1 kB) | ver `pnpm e2e` |
-| svelte-vite | sí (100) | sí (24.6 kB) | ver `pnpm e2e` |
-| r3f-3d | sí (100) | sí (75.2 kB) | ver `pnpm e2e` |
+| react-vite | sí (100) | sí (74.9 kB) | ver `pnpm e2e` |
+| astro-react | sí (100) | sí (78.9 kB) | ver `pnpm e2e` |
+| preact-vite | sí (100) | sí (16.4 kB) | ver `pnpm e2e` |
+| svelte-vite | sí (100) | sí (25.0 kB) | ver `pnpm e2e` |
+| r3f-3d | sí (100) | sí (75.3 kB) | ver `pnpm e2e` |
 
 ## Peso (kB)
 
@@ -20,31 +20,31 @@ JS inicial = scripts del HTML (y de las islas de Astro) más todo lo que importa
 
 | App | JS inicial raw | gzip | brotli | JS total raw | gzip | brotli | CSS raw | gzip | brotli |
 |---|---|---|---|---|---|---|---|---|---|
-| react-vite | 238.8 | 74.6 | 64.3 | 296.5 | 95.3 | 81.2 | 20.2 | 4.8 | 4.3 |
-| astro-react | 245.9 | 78.7 | 68.2 | 298.8 | 97.4 | 83.5 | 20.2 | 4.8 | 4.3 |
-| preact-vite | 42.4 | 16.1 | 14.6 | 98.7 | 36.7 | 31.4 | 20.2 | 4.8 | 4.3 |
-| svelte-vite | 64.3 | 24.6 | 22.1 | 124.5 | 47.0 | 40.4 | 20.2 | 4.8 | 4.3 |
-| r3f-3d | 240.0 | 75.2 | 64.8 | 1204.5 | 333.5 | 277.5 | 20.2 | 4.8 | 4.3 |
+| react-vite | 239.4 | 74.9 | 64.6 | 296.3 | 95.2 | 81.3 | 20.4 | 4.8 | 4.3 |
+| astro-react | 246.5 | 78.9 | 68.4 | 298.6 | 97.3 | 83.5 | 20.3 | 4.8 | 4.3 |
+| preact-vite | 42.9 | 16.4 | 14.9 | 98.5 | 36.7 | 31.5 | 20.4 | 4.8 | 4.3 |
+| svelte-vite | 65.0 | 25.0 | 22.5 | 124.5 | 47.0 | 40.6 | 20.4 | 4.8 | 4.3 |
+| r3f-3d | 240.4 | 75.3 | 65.0 | 1204.4 | 333.5 | 277.7 | 20.4 | 4.8 | 4.3 |
 
 ## Build y red
 
 | App | Build (s) | Requests en la carga |
 |---|---|---|
-| react-vite | 1.1 | 9 |
-| astro-react | 2.1 | 12 |
-| preact-vite | 1.0 | 9 |
-| svelte-vite | 1.4 | 9 |
-| r3f-3d | 1.4 | 10 |
+| react-vite | 1.1 | 11 |
+| astro-react | 2.0 | 14 |
+| preact-vite | 1.0 | 11 |
+| svelte-vite | 1.4 | 11 |
+| r3f-3d | 1.4 | 11 |
 
 ## Lighthouse (mobile, throttling por defecto, mediana de 3)
 
 | App | Performance | Accesibilidad | LCP (ms) | TBT (ms) | CLS |
 |---|---|---|---|---|---|
-| react-vite | 98 | 100 | 1588 | 121 | 0.001 |
-| astro-react | 97 | 100 | 754 | 190 | 0.002 |
-| preact-vite | 100 | 100 | 1223 | 0 | 0.001 |
-| svelte-vite | 99 | 100 | 1279 | 132 | 0 |
-| r3f-3d | 69 | 100 | 1551 | 3822 | 0.001 |
+| react-vite | 94 | 100 | 2879 | 119 | 0.001 |
+| astro-react | 96 | 100 | 2770 | 13 | 0.001 |
+| preact-vite | 98 | 100 | 2106 | 100 | 0.001 |
+| svelte-vite | 97 | 100 | 2256 | 112 | 0 |
+| r3f-3d | 73 | 100 | 1512 | 1649 | 0.001 |
 
 ## Interacción con CPU 4x (390 px, táctil)
 
@@ -52,11 +52,22 @@ Formato: tareas largas (tiempo total) · frames > 50 ms / frames medidos · p95 
 
 | App | Pan | Pinch | Bajada a la expedición |
 |---|---|---|---|
-| react-vite | 0 (0 ms) · 0/106 · p95 17 ms | 0 (0 ms) · 0/106 · p95 17 ms | 1 (73 ms) · 1/178 · p95 17 ms |
-| astro-react | 0 (0 ms) · 0/105 · p95 17 ms | 0 (0 ms) · 0/104 · p95 17 ms | 2 (157 ms) · 2/175 · p95 17 ms |
-| preact-vite | 0 (0 ms) · 0/105 · p95 17 ms | 0 (0 ms) · 0/102 · p95 17 ms | 1 (87 ms) · 1/178 · p95 17 ms |
-| svelte-vite | 0 (0 ms) · 0/105 · p95 17 ms | 0 (0 ms) · 0/102 · p95 17 ms | 2 (124 ms) · 1/172 · p95 17 ms |
-| r3f-3d | 13 (681 ms) · 2/138 · p95 50 ms | 38 (2248 ms) · 6/133 · p95 50 ms | 27 (1562 ms) · 18/126 · p95 67 ms |
+| react-vite | 0 (0 ms) · 0/105 · p95 17 ms | 0 (0 ms) · 0/104 · p95 17 ms | 0 (0 ms) · 0/178 · p95 17 ms |
+| astro-react | 0 (0 ms) · 0/104 · p95 17 ms | 0 (0 ms) · 0/104 · p95 17 ms | 0 (0 ms) · 0/177 · p95 17 ms |
+| preact-vite | 0 (0 ms) · 0/104 · p95 17 ms | 0 (0 ms) · 0/102 · p95 17 ms | 0 (0 ms) · 0/175 · p95 17 ms |
+| svelte-vite | 0 (0 ms) · 0/105 · p95 17 ms | 0 (0 ms) · 0/103 · p95 17 ms | 2 (106 ms) · 1/173 · p95 17 ms |
+| r3f-3d | 5 (266 ms) · 0/137 · p95 50 ms | 34 (1968 ms) · 7/141 · p95 50 ms | 27 (1641 ms) · 19/122 · p95 67 ms |
+
+## Zoom con GPU real (1440 px)
+
+GPU: ANGLE (Intel, Mesa Intel(R) Arc(tm) Graphics (MTL), OpenGL ES 3.2). Trabajo del proceso de GPU mientras se hace zoom: es donde aparecían las trabas (los filtros SVG se re-rasterizan fuera del hilo principal y no se ven en las métricas de arriba). Formato: total · tarea más larga · tareas > 16 ms. r3f-3d no se mide aquí: su mapa es una textura WebGL.
+
+| App | Botones + (3 zooms animados) | Rueda (10 pasos) |
+|---|---|---|
+| react-vite | 168 ms · máx 21 ms · 3 | 126 ms · máx 13 ms · 0 |
+| astro-react | 171 ms · máx 17 ms · 1 | 126 ms · máx 15 ms · 0 |
+| preact-vite | 169 ms · máx 21 ms · 3 | 148 ms · máx 14 ms · 0 |
+| svelte-vite | 165 ms · máx 22 ms · 3 | 104 ms · máx 15 ms · 0 |
 
 ## Capturas
 
@@ -98,8 +109,8 @@ En `docs/capturas/<app>/`: `mapa`, `ficha`, `lista`, `excavacion` y `conclusion`
 
 ### r3f-3d
 
-**Ventajas.** La "bajada" deja de ser un truco de CSS (`rotateX` sobre un plano) y pasa a ser una cámara en perspectiva que vuela hasta Marambio: es la versión con más impacto visual. El pan y el zoom mueven solo la cámara sobre una textura ya rasterizada, así que los filtros SVG (`feTurbulence`) se pagan una sola vez y no en cada frame. Todo lo demás (encabezado, fichas, lista, expedición) es `react-ui` sin cambios, y la cámara cenital encuadra el plano igual que la capa 2D, de modo que clustering, etiquetas y gestos salen de `core`.
+**Ventajas.** La "bajada" deja de ser un truco de CSS (`rotateX` sobre un plano) y pasa a ser una cámara en perspectiva que vuela hasta Marambio: es la versión con más impacto visual. El pan y el zoom mueven solo la cámara sobre una textura ya rasterizada, así que los filtros SVG nunca se recalculan en el navegador. Todo lo demás (encabezado, fichas, lista, expedición) es `react-ui` sin cambios, y la cámara cenital encuadra el plano igual que la capa 2D, de modo que clustering, etiquetas y gestos salen de `core`.
 
-**Desventajas.** Es, con diferencia, la más pesada: three.js + React Three Fiber suman unos 250 kB gzip en un chunk diferido, porque R3F registra todo el namespace de THREE y no se puede recortar importando solo `Html` de drei. El texto del mapa se rasteriza sin las tipografías propias (una imagen SVG no puede cargar fuentes externas) y con zoom alto la textura se ve más blanda que el SVG vectorial. Necesita WebGL: sin él cae a la vista de lista. El costo real está al arrancar: rasterizar el SVG con filtros a una textura de 2048–4096 px bloquea el hilo principal varios segundos con CPU lenta. Por eso Lighthouse le da el peor TBT y las mediciones de pan y pinch con CPU 4x muestran tareas largas (la rasterización todavía estaba corriendo). Prerrenderizar la textura a un PNG en el build eliminaría ese costo.
+**Desventajas.** Es, con diferencia, la más pesada: three.js + React Three Fiber suman unos 250 kB gzip en un chunk diferido, porque R3F registra todo el namespace de THREE y no se puede recortar importando solo `Html` de drei. El texto del mapa se rasteriza sin las tipografías propias (una imagen SVG no puede cargar fuentes externas) y con zoom alto la textura se ve más blanda que el SVG vectorial. Necesita WebGL: sin él cae a la vista de lista. El costo está al arrancar: three.js y la composición de la textura de 2048–4096 px pesan con CPU lenta. Desde que la acuarela viene horneada en WebP, el TBT bajó de ~3,8 s a ~1,6 s, pero sigue siendo el peor, y el pinch con CPU 4x todavía muestra tareas largas.
 
 **Experiencia de desarrollo.** Lo más delicado fue integrar `Html` de drei con un shell React existente: por defecto se cuelga del contenedor del canvas y al desmontar el mapa tiraba `removeChild`; se resolvió con un `portal` propio. Mapear el estado 2D (`k`, `px`, `py`) a una pose de cámara fue una sola fórmula y evitó duplicar la lógica de gestos.

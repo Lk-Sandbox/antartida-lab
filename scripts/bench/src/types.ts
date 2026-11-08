@@ -1,3 +1,5 @@
+import type { ZoomCost } from './gpu.ts';
+
 export interface Size {
   raw: number;
   gzip: number;
@@ -33,6 +35,8 @@ export interface AppResult {
   lighthouse: LighthouseRun;
   lighthouseRuns: LighthouseRun[];
   interaction: { pan: Interaction; pinch: Interaction; dive: Interaction };
+  /** GPU cost of zooming with the real GPU (see gpu.ts). */
+  zoomGpu?: { renderer: string; buttons: ZoomCost; wheel: ZoomCost };
   error?: string;
 }
 

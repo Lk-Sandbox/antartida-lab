@@ -24,7 +24,7 @@ export function Markers({ markers, className, onPick }: {
 }) {
   return (
     <div className={className}>
-      {markers.map((m) => <MarkerButton key={m.key} m={m} style={{ left: m.left + 'px', top: m.top + 'px' }} onPick={onPick} />)}
+      {markers.map((m) => <MarkerButton key={m.key} m={m} style={{ transform: `translate3d(${m.left}px, ${m.top}px, 0)` }} onPick={onPick} />)}
     </div>
   );
 }

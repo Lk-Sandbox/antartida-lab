@@ -130,8 +130,14 @@ export async function screenshots(browser: Browser, url: string, dir: string) {
 
     for (let spot = 1; spot <= 3; spot++) {
       const btn = page.getByRole('button', { name: new RegExp(`^Zona de excavación ${spot}`) });
-      for (let i = 0; i < 4; i++) await btn.press('Enter');
+      // Four passes open the card; retry a few in case a press lands before the previous render settles.
+      for (let i = 0; i < 8 && !(await page.getByRole('dialog').count()); i++) {
+        await btn.press('Enter');
+        await page.waitForTimeout(30);
+      }
       await page.getByRole('dialog').locator('.btn.primary').click();
+      // Preact closes the card on the next frame: wait, or the next passes land while it is still open.
+      await page.getByRole('dialog').waitFor({ state: 'detached' });
     }
     await page.locator('.opt').first().click();
     await page.locator('.ebar .btn.primary').click();

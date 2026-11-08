@@ -1,128 +1,55 @@
 {
-  "date": "2026-11-08T19:19:30.940Z",
+  "date": "2026-11-08T20:24:18.802Z",
   "machine": "Intel(R) Core(TM) Ultra 5 125H × 18",
   "chromium": "Chromium 156.0.8078.47 Arch Linux",
   "results": [
     {
       "app": "react-vite",
-      "buildMs": 1133,
+      "buildMs": 1092,
       "jsTotal": {
-        "raw": 303638,
-        "gzip": 97555,
-        "brotli": 83134
+        "raw": 303453,
+        "gzip": 97504,
+        "brotli": 83286
       },
       "jsInitial": {
-        "raw": 244514,
-        "gzip": 76421,
-        "brotli": 65814
+        "raw": 245096,
+        "gzip": 76677,
+        "brotli": 66115
       },
       "css": {
-        "raw": 20651,
-        "gzip": 4880,
-        "brotli": 4356
+        "raw": 20849,
+        "gzip": 4934,
+        "brotli": 4391
       },
-      "requests": 9,
+      "requests": 11,
       "lighthouse": {
-        "performance": 98,
+        "performance": 94,
         "accessibility": 100,
-        "lcp": 1588,
-        "tbt": 121,
+        "lcp": 2879,
+        "tbt": 119,
         "cls": 0.001
       },
       "lighthouseRuns": [
         {
-          "performance": 99,
+          "performance": 94,
           "accessibility": 100,
-          "lcp": 1527,
-          "tbt": 121,
+          "lcp": 2880,
+          "tbt": 119,
           "cls": 0.001
         },
         {
-          "performance": 98,
+          "performance": 95,
           "accessibility": 100,
-          "lcp": 1588,
-          "tbt": 116,
+          "lcp": 2610,
+          "tbt": 114,
           "cls": 0.001
         },
         {
-          "performance": 98,
+          "performance": 94,
           "accessibility": 100,
-          "lcp": 1588,
-          "tbt": 136,
+          "lcp": 2879,
+          "tbt": 124,
           "cls": 0.001
-        }
-      ],
-      "interaction": {
-        "pan": {
-          "longTasks": 0,
-          "longTaskMs": 0,
-          "longFrames": 0,
-          "frames": 106,
-          "p95Frame": 17
-        },
-        "pinch": {
-          "longTasks": 0,
-          "longTaskMs": 0,
-          "longFrames": 0,
-          "frames": 106,
-          "p95Frame": 17
-        },
-        "dive": {
-          "longTasks": 1,
-          "longTaskMs": 73,
-          "longFrames": 1,
-          "frames": 178,
-          "p95Frame": 17
-        }
-      }
-    },
-    {
-      "app": "astro-react",
-      "buildMs": 2124,
-      "jsTotal": {
-        "raw": 305921,
-        "gzip": 99702,
-        "brotli": 85458
-      },
-      "jsInitial": {
-        "raw": 251793,
-        "gzip": 80553,
-        "brotli": 69851
-      },
-      "css": {
-        "raw": 20651,
-        "gzip": 4879,
-        "brotli": 4359
-      },
-      "requests": 12,
-      "lighthouse": {
-        "performance": 97,
-        "accessibility": 100,
-        "lcp": 754,
-        "tbt": 190,
-        "cls": 0.002
-      },
-      "lighthouseRuns": [
-        {
-          "performance": 89,
-          "accessibility": 100,
-          "lcp": 754,
-          "tbt": 446,
-          "cls": 0.003
-        },
-        {
-          "performance": 97,
-          "accessibility": 100,
-          "lcp": 754,
-          "tbt": 190,
-          "cls": 0.002
-        },
-        {
-          "performance": 99,
-          "accessibility": 100,
-          "lcp": 754,
-          "tbt": 102,
-          "cls": 0.002
         }
       ],
       "interaction": {
@@ -141,133 +68,245 @@
           "p95Frame": 17
         },
         "dive": {
-          "longTasks": 2,
-          "longTaskMs": 157,
-          "longFrames": 2,
-          "frames": 175,
+          "longTasks": 0,
+          "longTaskMs": 0,
+          "longFrames": 0,
+          "frames": 178,
           "p95Frame": 17
+        }
+      },
+      "zoomGpu": {
+        "renderer": "ANGLE (Intel, Mesa Intel(R) Arc(tm) Graphics (MTL), OpenGL ES 3.2)",
+        "buttons": {
+          "gpuMs": 168,
+          "maxTaskMs": 21,
+          "longTasks": 3
+        },
+        "wheel": {
+          "gpuMs": 126,
+          "maxTaskMs": 13,
+          "longTasks": 0
+        }
+      }
+    },
+    {
+      "app": "astro-react",
+      "buildMs": 2038,
+      "jsTotal": {
+        "raw": 305739,
+        "gzip": 99664,
+        "brotli": 85500
+      },
+      "jsInitial": {
+        "raw": 252378,
+        "gzip": 80822,
+        "brotli": 70083
+      },
+      "css": {
+        "raw": 20824,
+        "gzip": 4923,
+        "brotli": 4390
+      },
+      "requests": 14,
+      "lighthouse": {
+        "performance": 96,
+        "accessibility": 100,
+        "lcp": 2770,
+        "tbt": 13,
+        "cls": 0.001
+      },
+      "lighthouseRuns": [
+        {
+          "performance": 96,
+          "accessibility": 100,
+          "lcp": 2820,
+          "tbt": 20,
+          "cls": 0.001
+        },
+        {
+          "performance": 96,
+          "accessibility": 100,
+          "lcp": 2770,
+          "tbt": 13,
+          "cls": 0.001
+        },
+        {
+          "performance": 96,
+          "accessibility": 100,
+          "lcp": 2759,
+          "tbt": 3,
+          "cls": 0.001
+        }
+      ],
+      "interaction": {
+        "pan": {
+          "longTasks": 0,
+          "longTaskMs": 0,
+          "longFrames": 0,
+          "frames": 104,
+          "p95Frame": 17
+        },
+        "pinch": {
+          "longTasks": 0,
+          "longTaskMs": 0,
+          "longFrames": 0,
+          "frames": 104,
+          "p95Frame": 17
+        },
+        "dive": {
+          "longTasks": 0,
+          "longTaskMs": 0,
+          "longFrames": 0,
+          "frames": 177,
+          "p95Frame": 17
+        }
+      },
+      "zoomGpu": {
+        "renderer": "ANGLE (Intel, Mesa Intel(R) Arc(tm) Graphics (MTL), OpenGL ES 3.2)",
+        "buttons": {
+          "gpuMs": 171,
+          "maxTaskMs": 17,
+          "longTasks": 1
+        },
+        "wheel": {
+          "gpuMs": 126,
+          "maxTaskMs": 15,
+          "longTasks": 0
         }
       }
     },
     {
       "app": "preact-vite",
-      "buildMs": 1030,
+      "buildMs": 994,
       "jsTotal": {
-        "raw": 101099,
-        "gzip": 37583,
-        "brotli": 32190
+        "raw": 100847,
+        "gzip": 37551,
+        "brotli": 32267
       },
       "jsInitial": {
-        "raw": 43381,
-        "gzip": 16536,
-        "brotli": 14957
+        "raw": 43896,
+        "gzip": 16812,
+        "brotli": 15220
       },
       "css": {
-        "raw": 20651,
-        "gzip": 4880,
-        "brotli": 4356
+        "raw": 20849,
+        "gzip": 4934,
+        "brotli": 4391
       },
-      "requests": 9,
+      "requests": 11,
       "lighthouse": {
-        "performance": 100,
+        "performance": 98,
         "accessibility": 100,
-        "lcp": 1223,
-        "tbt": 0,
+        "lcp": 2106,
+        "tbt": 100,
         "cls": 0.001
-      },
-      "lighthouseRuns": [
-        {
-          "performance": 100,
-          "accessibility": 100,
-          "lcp": 1223,
-          "tbt": 0,
-          "cls": 0.001
-        },
-        {
-          "performance": 100,
-          "accessibility": 100,
-          "lcp": 1224,
-          "tbt": 0,
-          "cls": 0.001
-        },
-        {
-          "performance": 100,
-          "accessibility": 100,
-          "lcp": 1207,
-          "tbt": 0,
-          "cls": 0.001
-        }
-      ],
-      "interaction": {
-        "pan": {
-          "longTasks": 0,
-          "longTaskMs": 0,
-          "longFrames": 0,
-          "frames": 105,
-          "p95Frame": 17
-        },
-        "pinch": {
-          "longTasks": 0,
-          "longTaskMs": 0,
-          "longFrames": 0,
-          "frames": 102,
-          "p95Frame": 17
-        },
-        "dive": {
-          "longTasks": 1,
-          "longTaskMs": 87,
-          "longFrames": 1,
-          "frames": 178,
-          "p95Frame": 17
-        }
-      }
-    },
-    {
-      "app": "svelte-vite",
-      "buildMs": 1405,
-      "jsTotal": {
-        "raw": 127500,
-        "gzip": 48103,
-        "brotli": 41417
-      },
-      "jsInitial": {
-        "raw": 65810,
-        "gzip": 25197,
-        "brotli": 22651
-      },
-      "css": {
-        "raw": 20651,
-        "gzip": 4880,
-        "brotli": 4356
-      },
-      "requests": 9,
-      "lighthouse": {
-        "performance": 99,
-        "accessibility": 100,
-        "lcp": 1279,
-        "tbt": 132,
-        "cls": 0
       },
       "lighthouseRuns": [
         {
           "performance": 98,
           "accessibility": 100,
-          "lcp": 1285,
-          "tbt": 141,
+          "lcp": 2256,
+          "tbt": 100,
+          "cls": 0.001
+        },
+        {
+          "performance": 98,
+          "accessibility": 100,
+          "lcp": 2106,
+          "tbt": 100,
+          "cls": 0.001
+        },
+        {
+          "performance": 98,
+          "accessibility": 100,
+          "lcp": 2106,
+          "tbt": 100,
+          "cls": 0.001
+        }
+      ],
+      "interaction": {
+        "pan": {
+          "longTasks": 0,
+          "longTaskMs": 0,
+          "longFrames": 0,
+          "frames": 104,
+          "p95Frame": 17
+        },
+        "pinch": {
+          "longTasks": 0,
+          "longTaskMs": 0,
+          "longFrames": 0,
+          "frames": 102,
+          "p95Frame": 17
+        },
+        "dive": {
+          "longTasks": 0,
+          "longTaskMs": 0,
+          "longFrames": 0,
+          "frames": 175,
+          "p95Frame": 17
+        }
+      },
+      "zoomGpu": {
+        "renderer": "ANGLE (Intel, Mesa Intel(R) Arc(tm) Graphics (MTL), OpenGL ES 3.2)",
+        "buttons": {
+          "gpuMs": 169,
+          "maxTaskMs": 21,
+          "longTasks": 3
+        },
+        "wheel": {
+          "gpuMs": 148,
+          "maxTaskMs": 14,
+          "longTasks": 0
+        }
+      }
+    },
+    {
+      "app": "svelte-vite",
+      "buildMs": 1420,
+      "jsTotal": {
+        "raw": 127502,
+        "gzip": 48152,
+        "brotli": 41579
+      },
+      "jsInitial": {
+        "raw": 66579,
+        "gzip": 25554,
+        "brotli": 23015
+      },
+      "css": {
+        "raw": 20849,
+        "gzip": 4934,
+        "brotli": 4391
+      },
+      "requests": 11,
+      "lighthouse": {
+        "performance": 97,
+        "accessibility": 100,
+        "lcp": 2256,
+        "tbt": 112,
+        "cls": 0
+      },
+      "lighthouseRuns": [
+        {
+          "performance": 97,
+          "accessibility": 100,
+          "lcp": 2257,
+          "tbt": 110,
           "cls": 0
         },
         {
-          "performance": 99,
+          "performance": 98,
           "accessibility": 100,
-          "lcp": 1279,
-          "tbt": 128,
+          "lcp": 2256,
+          "tbt": 112,
           "cls": 0
         },
         {
-          "performance": 99,
+          "performance": 97,
           "accessibility": 100,
-          "lcp": 1237,
-          "tbt": 132,
+          "lcp": 2256,
+          "tbt": 130,
           "cls": 0
         }
       ],
@@ -283,87 +322,100 @@
           "longTasks": 0,
           "longTaskMs": 0,
           "longFrames": 0,
-          "frames": 102,
+          "frames": 103,
           "p95Frame": 17
         },
         "dive": {
           "longTasks": 2,
-          "longTaskMs": 124,
+          "longTaskMs": 106,
           "longFrames": 1,
-          "frames": 172,
+          "frames": 173,
           "p95Frame": 17
+        }
+      },
+      "zoomGpu": {
+        "renderer": "ANGLE (Intel, Mesa Intel(R) Arc(tm) Graphics (MTL), OpenGL ES 3.2)",
+        "buttons": {
+          "gpuMs": 165,
+          "maxTaskMs": 22,
+          "longTasks": 3
+        },
+        "wheel": {
+          "gpuMs": 104,
+          "maxTaskMs": 15,
+          "longTasks": 0
         }
       }
     },
     {
       "app": "r3f-3d",
-      "buildMs": 1428,
+      "buildMs": 1434,
       "jsTotal": {
-        "raw": 1233413,
-        "gzip": 341487,
-        "brotli": 284193
+        "raw": 1233316,
+        "gzip": 341526,
+        "brotli": 284389
       },
       "jsInitial": {
-        "raw": 245745,
-        "gzip": 76958,
-        "brotli": 66397
+        "raw": 246157,
+        "gzip": 77144,
+        "brotli": 66544
       },
       "css": {
-        "raw": 20689,
-        "gzip": 4895,
-        "brotli": 4367
+        "raw": 20887,
+        "gzip": 4948,
+        "brotli": 4400
       },
-      "requests": 10,
+      "requests": 11,
       "lighthouse": {
-        "performance": 69,
+        "performance": 73,
         "accessibility": 100,
-        "lcp": 1551,
-        "tbt": 3822,
+        "lcp": 1512,
+        "tbt": 1649,
         "cls": 0.001
       },
       "lighthouseRuns": [
         {
-          "performance": 69,
+          "performance": 72,
           "accessibility": 100,
-          "lcp": 1551,
-          "tbt": 3752,
+          "lcp": 1554,
+          "tbt": 1767,
           "cls": 0.001
         },
         {
-          "performance": 69,
+          "performance": 73,
           "accessibility": 100,
-          "lcp": 1555,
-          "tbt": 3920,
+          "lcp": 1511,
+          "tbt": 1649,
           "cls": 0.001
         },
         {
-          "performance": 69,
+          "performance": 73,
           "accessibility": 100,
-          "lcp": 1502,
-          "tbt": 3822,
+          "lcp": 1512,
+          "tbt": 1638,
           "cls": 0.001
         }
       ],
       "interaction": {
         "pan": {
-          "longTasks": 13,
-          "longTaskMs": 681,
-          "longFrames": 2,
-          "frames": 138,
+          "longTasks": 5,
+          "longTaskMs": 266,
+          "longFrames": 0,
+          "frames": 137,
           "p95Frame": 50
         },
         "pinch": {
-          "longTasks": 38,
-          "longTaskMs": 2248,
-          "longFrames": 6,
-          "frames": 133,
+          "longTasks": 34,
+          "longTaskMs": 1968,
+          "longFrames": 7,
+          "frames": 141,
           "p95Frame": 50
         },
         "dive": {
           "longTasks": 27,
-          "longTaskMs": 1562,
-          "longFrames": 18,
-          "frames": 126,
+          "longTaskMs": 1641,
+          "longFrames": 19,
+          "frames": 122,
           "p95Frame": 67
         }
       }

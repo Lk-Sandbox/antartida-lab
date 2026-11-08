@@ -5,8 +5,8 @@
 <script lang="ts">
   import { onDestroy, onMount, tick, untrack } from 'svelte';
   import {
-    DRAG_THRESHOLD, EXPEDITION_POINT, HOME, MAP_OCEAN, ZOOM_MS,
-    buildMarkers, diveView, geometry, keyView, layerTransform, loadMapLand, panBy, zoomAround, zoomCenter,
+    DRAG_THRESHOLD, EXPEDITION_POINT, HOME, MAP_PLACEHOLDER, MAP_RASTER, MAP_RASTER_BOX, ZOOM_MS,
+    buildMarkers, diveView, geometry, isWheelNotch, keyView, layerTransform, loadHiResWhenIdle, loadMapInk, panBy, wheelFactor, zoomAround, zoomCenter,
     type MapPoint, type Marker, type Size, type View,
   } from '@antartida/core';
   import { html } from '../actions.ts';
@@ -26,17 +26,26 @@
     onStart: () => void;
   } = $props();
 
-  const TRANSITION = { '': 'none', zoom: 'transform .45s cubic-bezier(.3,.6,.3,1)', dive: 'transform 1.5s cubic-bezier(.55,0,.3,1)' };
+  const TRANSITION = {
+    '': 'none',
+    zoom: 'transform .45s cubic-bezier(.3,.6,.3,1)',
+    wheel: 'transform .18s cubic-bezier(.2,.7,.3,1)',
+    dive: 'transform 1.5s cubic-bezier(.55,0,.3,1)',
+  };
+  const WHEEL_MS = 200;
 
   let vp: HTMLDivElement;
   let size = $state<Size>({ vw: 390, vh: 844 });
   let view = $state.raw<View>(HOME);
-  let anim = $state<'' | 'zoom' | 'dive'>('');
+  let anim = $state<'' | 'zoom' | 'wheel' | 'dive'>('');
   let touched = $state(false);
   let sheet = $state.raw<MapPoint | null>(null);
   let list = $state(false);
-  let land = $state('');
+  let ink = $state('');
+  let src = $state(MAP_RASTER.base);
+  let painted = $state(false);
   let zoomTimer: ReturnType<typeof setTimeout> | undefined;
+  let wheelTimer: ReturnType<typeof setTimeout> | undefined;
 
   const ptrs = new Map<number, { x: number; y: number }>();
   let dragged = false;
@@ -55,14 +64,22 @@
     const ro = new ResizeObserver(measure);
     ro.observe(vp);
     let alive = true;
-    loadMapLand().then((h) => alive && (land = h));
+    loadMapInk().then((h) => alive && (ink = h));
+    // Non-passive so trackpad pinch (ctrl+wheel) never zooms the whole page.
+    vp.addEventListener('wheel', onWheel, { passive: false });
     if (focusExpedition) tick().then(() => vp.querySelector<HTMLElement>('.mk.ta, .mk.has-a')?.focus());
     return () => {
       alive = false;
       ro.disconnect();
+      vp.removeEventListener('wheel', onWheel);
     };
   });
-  onDestroy(() => clearTimeout(zoomTimer));
+  onDestroy(() => {
+    clearTimeout(zoomTimer);
+    clearTimeout(wheelTimer);
+  });
+
+  $effect(() => (painted ? loadHiResWhenIdle((url) => (src = url)) : undefined));
 
   $effect(() => {
     if (phase !== 'dive' && phase !== 'fade') return;
@@ -135,9 +152,15 @@
   }
 
   function onWheel(e: WheelEvent) {
+    e.preventDefault();
     if (phase !== 'idle') return;
     const p = rel(e);
-    setLive(zoomAround(size, view, p.x, p.y, view.k * (e.deltaY < 0 ? 1.18 : 1 / 1.18)));
+    setLive(zoomAround(size, view, p.x, p.y, view.k * wheelFactor(e.deltaY, e.deltaMode)));
+    if (isWheelNotch(e.deltaY, e.deltaMode)) {
+      anim = 'wheel';
+      clearTimeout(wheelTimer);
+      wheelTimer = setTimeout(() => (anim = ''), WHEEL_MS);
+    }
   }
 
   function onKey(e: KeyboardEvent) {
@@ -187,18 +210,18 @@
       onpointerup={onUp}
       onpointercancel={onUp}
       onpointerleave={onUp}
-      onwheel={onWheel}
       onkeydown={onKey}
     >
       <div class="layer" style:width="{geo.S}px" style:height="{geo.S}px" style:transform={layerTransform(geo, view)} style:transition={TRANSITION[anim]}>
-        <svg viewBox="0 0 1000 1000" aria-hidden="true" focusable="false">
-          <g use:html={MAP_OCEAN}></g>
-          <g use:html={land}></g>
-        </svg>
+        {#if !painted}
+          <svg viewBox="0 0 1000 1000" style="position: absolute" aria-hidden="true" focusable="false" use:html={MAP_PLACEHOLDER}></svg>
+        {/if}
+        <img class="paint" {src} alt="" draggable="false" decoding="async" fetchpriority="high" style:left={MAP_RASTER_BOX.left} style:top={MAP_RASTER_BOX.top} style:width={MAP_RASTER_BOX.width} style:height={MAP_RASTER_BOX.height} onload={() => (painted = true)} />
+        <svg viewBox="0 0 1000 1000" aria-hidden="true" focusable="false" use:html={ink}></svg>
       </div>
-      <div class="ov" class:zooming={anim === 'zoom'} class:hide={phase === 'dive'}>
+      <div class="ov" class:zooming={anim === 'zoom'} class:wheeling={anim === 'wheel'} class:hide={phase === 'dive'}>
         {#each markers as m (m.key)}
-          <button type="button" class={m.cls} style:left="{m.left}px" style:top="{m.top}px" onclick={() => onPick(m)} aria-label={m.aria}>
+          <button type="button" class={m.cls} style:transform="translate3d({m.left}px, {m.top}px, 0)" onclick={() => onPick(m)} aria-label={m.aria}>
             <span class="dot">
               {#if m.kind === 'cluster'}{m.count}{/if}
               {#if m.kind === 'point' && m.pulse}<span class="pulse"></span>{/if}

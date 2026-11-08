@@ -68,6 +68,17 @@ export function renderReport(file: BenchFile): string {
     valid.map((r) => [r.app, inter(r.interaction?.pan), inter(r.interaction?.pinch), inter(r.interaction?.dive)]),
   ), '');
 
+  const gpu = valid.filter((r) => r.zoomGpu);
+  if (gpu.length) {
+    out.push('## Zoom con GPU real (1440 px)', '');
+    out.push(
+      `GPU: ${gpu[0].zoomGpu!.renderer}. Trabajo del proceso de GPU mientras se hace zoom: es donde aparecían las trabas (los filtros SVG se re-rasterizan fuera del hilo principal y no se ven en las métricas de arriba). Formato: total · tarea más larga · tareas > 16 ms. r3f-3d no se mide aquí: su mapa es una textura WebGL.`,
+      '',
+    );
+    const z = (c: { gpuMs: number; maxTaskMs: number; longTasks: number }) => `${c.gpuMs} ms · máx ${c.maxTaskMs} ms · ${c.longTasks}`;
+    out.push(table(['App', 'Botones + (3 zooms animados)', 'Rueda (10 pasos)'], gpu.map((r) => [r.app, z(r.zoomGpu!.buttons), z(r.zoomGpu!.wheel)])), '');
+  }
+
   const failed = rs.filter((r) => r.error);
   if (failed.length) {
     out.push('## Errores del benchmark', '');

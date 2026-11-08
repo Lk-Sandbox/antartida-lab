@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   PTS, buildMarkers, clusterPoints, geometry, keyView, placeLabels, project, separationZoom,
-  zoomAround, HOME, MAX_K, MIN_K,
+  zoomAround, wheelFactor, HOME, MAX_K, MIN_K,
 } from '../src/index.ts';
 
 describe('projection', () => {
@@ -116,6 +116,15 @@ describe('viewport', () => {
     const before = { u: (200 - ox) / S, v: (420 - oy) / S };
     expect((200 - ox - v.px) / (S * v.k)).toBeCloseTo(before.u, 6);
     expect((420 - oy - v.py) / (S * v.k)).toBeCloseTo(before.v, 6);
+  });
+
+  it('zooms in proportion to the wheel delta, clamped per event', () => {
+    expect(wheelFactor(-100)).toBeGreaterThan(1.15);
+    expect(wheelFactor(-100)).toBeLessThan(1.25);
+    expect(wheelFactor(100)).toBeCloseTo(1 / wheelFactor(-100), 6);
+    expect(wheelFactor(-4)).toBeLessThan(1.01);
+    expect(wheelFactor(-3, 1)).toBeCloseTo(wheelFactor(-99), 6);
+    expect(wheelFactor(-5000)).toBe(wheelFactor(-150));
   });
 
   it('handles arrow and +/- keys', () => {

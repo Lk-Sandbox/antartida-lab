@@ -1,6 +1,7 @@
 ---
 import { AntarcticaApp } from '@antartida/react-ui';
 import '@antartida/core/styles/index.css';
+import mapBase from '@antartida/core/assets/map-paint-768.webp?url';
 ---
 <!doctype html>
 <html lang="es-AR">
@@ -10,6 +11,7 @@ import '@antartida/core/styles/index.css';
     <meta name="description" content="Mapa interactivo de la Antártida y expedición educativa a los fósiles de Isla Marambio." />
     <meta name="theme-color" content="#F3EBDD" />
     <title>Antártida por descubrir</title>
+    <link rel="preload" as="image" type="image/webp" fetchpriority="high" href={mapBase} />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2713%27 fill=%27%23C0862F%27 stroke=%27%231F2A36%27 stroke-width=%273%27/%3E%3C/svg%3E" />
   </head>
   <body>

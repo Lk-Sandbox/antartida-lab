@@ -1,29 +1,61 @@
-import { SVG_DEFS } from './filters.ts';
-
 /**
- * Map art, copied from the prototype (injected as innerHTML in every stack).
- * The ocean and graticule ship with the page; the coastline (~30 kB) is loaded on demand.
+ * The map is two layers:
+ * - the watercolor (ocean, ice, halos, graticule, all the painted SVG filters), baked at build time
+ *   into WebP by scripts/build-map-raster.ts, so zooming scales a bitmap instead of re-running feTurbulence;
+ * - a crisp vector "ink" layer on top (coastline outlines, route, labels), with no filters.
  */
 
-/** Ocean, graticule and Greenwich arrow: first layer of the map <svg viewBox="0 0 1000 1000">. */
-export const MAP_OCEAN = `<circle cx="500" cy="500" r="600" fill="#2B5276" opacity="0.18" filter="url(#bleed)"></circle>
-<circle cx="500" cy="505" r="548" fill="url(#ocean)" filter="url(#wc)" opacity="0.94"></circle>
-<circle cx="490" cy="490" r="470" fill="#6C98B9" opacity="0.22" filter="url(#bleed)"></circle>
-<g fill="none" stroke="#DCE7EE" stroke-width="1.1" opacity="0.5" filter="url(#ink)">
-<circle cx="500" cy="500" r="426" stroke-dasharray="4 7"></circle>
-<circle cx="500" cy="500" r="280" stroke-dasharray="4 7"></circle>
-<circle cx="500" cy="500" r="139" stroke-dasharray="4 7"></circle>
-<path d="M500,500 L500,-40 M500,500 L1040,500 M500,500 L500,1040 M500,500 L-40,500 M500,500 L120,120 M500,500 L880,120 M500,500 L880,880 M500,500 L120,880"></path>
-</g>
-<g font-family="Caveat, cursive" font-size="17" fill="#E6EEF3" opacity="0.85">
-<text x="508" y="70">0° Greenwich</text>
-<text x="74" y="78" transform="rotate(-45 74 78)">60° S</text>
-</g>
-<path d="M500,58 L500,22 M492,34 L500,20 L508,34" stroke="#F7FAFB" stroke-width="2.2" fill="none" stroke-linecap="round" filter="url(#ink)"></path>`;
+/** Map units of margin baked around 0..1000 (halo and Tierra del Fuego overflow the square). */
+export const MAP_RASTER_PAD = 120;
+export const MAP_RASTER_SPAN = 1000 + 2 * MAP_RASTER_PAD;
 
-/** Natural Earth coastline plus sea and region labels, drawn over MAP_OCEAN. */
-export const loadMapLand = (): Promise<string> => import('./land.ts').then((m) => m.MAP_LAND);
+/**
+ * `base` (768 px, preloaded from each app's HTML) is the first paint and the LCP element; a sharper one
+ * is swapped in while idle: `mid` on small screens (less GPU memory on phones), `hi` on desktop.
+ * Client-side only: during Astro's prerender these resolve to file:// paths, so components set them in an effect.
+ */
+export const MAP_RASTER = {
+  base: new URL('../assets/map-paint-768.webp', import.meta.url).href,
+  mid: new URL('../assets/map-paint-2048.webp', import.meta.url).href,
+  hi: new URL('../assets/map-paint-4096.webp', import.meta.url).href,
+};
 
-/** Standalone SVG document of the map, with `pad` map units of margin (for rasterizing to a texture). */
-export const mapSvgDocument = async (size = 2048, pad = 0) =>
-  `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="${-pad} ${-pad} ${1000 + 2 * pad} ${1000 + 2 * pad}"><defs>${SVG_DEFS}</defs>${MAP_OCEAN}${await loadMapLand()}</svg>`;
+
+/** Box of the baked image inside the 0..1000 map layer, as CSS percentages. */
+export const MAP_RASTER_BOX = {
+  left: `${(-MAP_RASTER_PAD / 1000) * 100}%`,
+  top: `${(-MAP_RASTER_PAD / 1000) * 100}%`,
+  width: `${(MAP_RASTER_SPAN / 1000) * 100}%`,
+  height: `${(MAP_RASTER_SPAN / 1000) * 100}%`,
+};
+
+/** Cheap filter-free ocean shown until the image arrives (uses the shared #ocean gradient). */
+export const MAP_PLACEHOLDER = `<circle cx="500" cy="505" r="548" fill="url(#ocean)" opacity="0.94"></circle>`;
+
+/** Vector ink layer (~10 kB gzip of coastline), loaded on demand. */
+export const loadMapInk = (): Promise<string> => import('./land.ts').then((m) => m.MAP_INK);
+
+/**
+ * Loads the sharp image during idle time after the first paint and calls `onReady` once it is decoded.
+ * Swapping (and uploading 64 MB of texture) mid-zoom caused an ~80 ms hitch; doing it while idle keeps
+ * every zoom smooth. Skipped on Save-Data or slow connections. Returns a cancel function.
+ */
+export function loadHiResWhenIdle(onReady: (url: string) => void): () => void {
+  const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+  if (conn?.saveData || /(^|-)2g|3g/.test(conn?.effectiveType ?? '')) return () => {};
+  let alive = true;
+  const start = () => {
+    const img = new Image();
+    const url = window.innerWidth < 820 ? MAP_RASTER.mid : MAP_RASTER.hi;
+    img.src = url;
+    img.decode().then(() => alive && onReady(url), () => {});
+  };
+  const idle = window.requestIdleCallback
+    ? window.requestIdleCallback(start, { timeout: 4000 })
+    : window.setTimeout(start, 1500);
+  return () => {
+    alive = false;
+    if (window.cancelIdleCallback) window.cancelIdleCallback(idle);
+    else window.clearTimeout(idle);
+  };
+}

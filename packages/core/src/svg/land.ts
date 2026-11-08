@@ -1,25 +1,16 @@
 import { ANTARCTICA_PATH, ICE_SHELF_SEAM, ICE_SHELVES_PATH, SOUTH_AMERICA_PATH } from '../coastline.ts';
 
-/** Coastline layers and labels. Only the coastline source and a few label positions differ from the prototype (see docs/DECISIONES.md). */
-export const MAP_LAND = `<defs><path id="land" d="${ANTARCTICA_PATH}"></path><path id="shelves" d="${ICE_SHELVES_PATH}"></path></defs>
-<g fill="#A9C6DA" filter="url(#bleed)" opacity="0.9"><use href="#land"></use><use href="#shelves"></use></g>
-<g filter="url(#wcs)">
-<use href="#shelves" fill="#E4EEF4"></use>
+/**
+ * Crisp vector layer drawn over the baked watercolor: coastline outlines, the Ushuaia route and
+ * labels. No SVG filters here, so re-rasterizing it at any zoom stays cheap.
+ * Only the coastline source and a few label positions differ from the prototype (see docs/DECISIONES.md).
+ */
+export const MAP_INK = `<g fill="none" stroke-linejoin="round">
+<path d="${ICE_SHELVES_PATH}" stroke="#1F2A36" stroke-width="1" opacity="0.55"></path>
 <path d="${ICE_SHELF_SEAM}" stroke="#E4EEF4" stroke-width="7"></path>
-<use href="#land" fill="url(#ice)"></use>
+<path d="${ANTARCTICA_PATH}" stroke="#1F2A36" stroke-width="1.6"></path>
+<path d="${SOUTH_AMERICA_PATH}" stroke="#1F2A36" stroke-width="1.5"></path>
 </g>
-<g fill="none" stroke="#9FBDD1" stroke-width="2" stroke-linecap="round" opacity="0.7" filter="url(#ink)">
-<path d="M560,300 C620,330 680,380 720,450"></path>
-<path d="M600,560 C640,600 690,640 730,700"></path>
-<path d="M330,470 C360,520 380,560 400,590"></path>
-<path d="M610,470 C650,500 690,520 760,530"></path>
-</g>
-<g filter="url(#ink)" fill="none" stroke-linejoin="round">
-<use href="#shelves" stroke="#1F2A36" stroke-width="1" opacity="0.55"></use>
-<path d="${ICE_SHELF_SEAM}" stroke="#E4EEF4" stroke-width="7"></path>
-<use href="#land" stroke="#1F2A36" stroke-width="1.6"></use>
-</g>
-<path d="${SOUTH_AMERICA_PATH}" fill="#D9C49C" stroke="#1F2A36" stroke-width="1.5" filter="url(#wcs)"></path>
 <path d="M36,318 C80,350 140,348 190,306" fill="none" stroke="#F7FAFB" stroke-width="5" stroke-linecap="round" opacity="0.5"></path>
 <path d="M36,318 C80,350 140,348 190,306" fill="none" stroke="#A4471F" stroke-width="2.4" stroke-dasharray="2 9" stroke-linecap="round"></path>
 <g font-family="Caveat, cursive" fill="#F7FAFB">

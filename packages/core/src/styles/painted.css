@@ -26,8 +26,13 @@ button:focus-visible,[tabindex]:focus-visible{outline:3px solid #1E3E5C;outline-
 .vp:focus-visible{box-shadow:inset 0 0 0 3px #1E3E5C}
 .layer{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
 .layer svg{display:block;width:100%;height:100%;overflow:visible}
+.layer .paint{position:absolute;max-width:none;pointer-events:none;user-select:none}
+.layer svg{position:relative}
 .ov{position:absolute;inset:0;pointer-events:none}
-.ov.zooming .mk{transition:left .45s cubic-bezier(.3,.6,.3,1),top .45s cubic-bezier(.3,.6,.3,1)}
+/* Lab fix: markers move with a composited transform (left/top forced a repaint on every zoom frame). */
+.ov .mk{left:0;top:0}
+.ov.zooming .mk{transition:transform .45s cubic-bezier(.3,.6,.3,1)}
+.ov.wheeling .mk{transition:transform .18s cubic-bezier(.2,.7,.3,1)}
 .ov.hide{opacity:0;transition:opacity .4s}
 
 .mk{position:absolute;width:48px;height:48px;margin:-24px 0 0 -24px;padding:0;border:0;background:transparent;pointer-events:auto;display:flex;align-items:center;justify-content:center;border-radius:50%}

@@ -57,7 +57,7 @@ pnpm bench react-vite svelte-vite --runs=1 --skip-shots
 
 `pnpm bench` guarda los datos en `docs/bench/results.json` y regenera `docs/COMPARACION.md`. Los reportes completos de Lighthouse quedan en `scripts/bench/out/` (fuera de git).
 
-Para regenerar la costa: `pnpm coastline`. Descarga Natural Earth en `packages/core/.cache/` y reescribe `packages/core/src/coastline.ts`.
+Para regenerar la costa: `pnpm coastline`. Descarga Natural Earth en `packages/core/.cache/` y reescribe `packages/core/src/coastline.ts`. Después, o si cambia el arte del mapa, hay que volver a hornear la acuarela: `pnpm --filter @antartida/core map-raster`.
 
 ## Fuentes y licencias
 

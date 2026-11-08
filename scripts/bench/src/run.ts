@@ -12,6 +12,7 @@ import { chromium } from '@playwright/test';
 import { chromiumPath } from '@antartida/e2e/browser';
 import { APPS, type AppName } from '@antartida/e2e/ports';
 import { measureInteraction, measureLoad, screenshots } from './browser.ts';
+import { measureZoomGpu } from './gpu.ts';
 import { medianRun, runLighthouse } from './lighthouse.ts';
 import { writeReport } from './report.ts';
 import { build, startPreview } from './server.ts';
@@ -46,6 +47,8 @@ async function benchApp(app: AppName): Promise<AppResult> {
     const load = await measureLoad(browser, url);
     console.log(`[${app}] interaction (CPU 4x)`);
     const interaction = await measureInteraction(browser, url);
+    console.log(`[${app}] zoom (GPU)`);
+    const zoomGpu = app === 'r3f-3d' ? undefined : await measureZoomGpu(url, chromiumPath, outDir);
     if (!flag('skip-shots')) {
       console.log(`[${app}] screenshots`);
       await screenshots(browser, url, join(root, 'docs/capturas', app));
@@ -67,6 +70,7 @@ async function benchApp(app: AppName): Promise<AppResult> {
       lighthouse: lighthouseRuns.length ? medianRun(lighthouseRuns) : emptyRun,
       lighthouseRuns,
       interaction,
+      zoomGpu,
     };
   } finally {
     await browser.close();

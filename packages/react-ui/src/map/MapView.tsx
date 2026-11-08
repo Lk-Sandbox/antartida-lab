@@ -1,7 +1,7 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ComponentType, type KeyboardEvent, type PointerEvent, type WheelEvent } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ComponentType, type KeyboardEvent, type PointerEvent } from 'react';
 import {
-  DRAG_THRESHOLD, EXPEDITION_POINT, HOME, MAP_OCEAN, PTS, ZOOM_MS,
-  buildMarkers, diveView, geometry, keyView, layerTransform, loadMapLand, panBy, zoomAround, zoomCenter,
+  DRAG_THRESHOLD, EXPEDITION_POINT, HOME, MAP_PLACEHOLDER, MAP_RASTER, MAP_RASTER_BOX, PTS, ZOOM_MS,
+  buildMarkers, diveView, geometry, isWheelNotch, keyView, layerTransform, loadHiResWhenIdle, loadMapInk, panBy, wheelFactor, zoomAround, zoomCenter,
   type Geometry, type MapPoint, type Marker, type Size, type View,
 } from '@antartida/core';
 import { useTimers } from '../hooks.ts';
@@ -13,7 +13,9 @@ import { Markers } from './Markers.tsx';
 import { PointSheet } from './PointSheet.tsx';
 
 export type Phase = 'idle' | 'dive' | 'fade' | 'ret';
-export type Anim = '' | 'zoom' | 'dive';
+export type Anim = '' | 'zoom' | 'wheel' | 'dive';
+
+const WHEEL_MS = 200;
 
 export interface MapViewProps {
   phase: Phase;
@@ -43,31 +45,41 @@ export interface LayerProps {
 const LAYER_TRANSITION: Record<Anim, string> = {
   '': 'none',
   zoom: 'transform .45s cubic-bezier(.3,.6,.3,1)',
+  wheel: 'transform .18s cubic-bezier(.2,.7,.3,1)',
   dive: 'transform 1.5s cubic-bezier(.55,0,.3,1)',
 };
 
-/** Default layer: the painted SVG map with HTML markers on top. */
+/**
+ * Default layer: the baked watercolor image, the crisp vector ink on top, and HTML markers.
+ * Zooming only scales a bitmap and filter-free vectors, so it never re-runs the SVG filters.
+ */
 export function SvgLayer({ geo, view, anim, phase, markers, onPick }: LayerProps) {
-  const [land, setLand] = useState('');
+  const [ink, setInk] = useState('');
+  // Set on the client only: prerendered HTML (Astro) must not carry a build-machine asset path.
+  const [src, setSrc] = useState<string | null>(null);
+  useEffect(() => setSrc(MAP_RASTER.base), []);
+  const [painted, setPainted] = useState(false);
   useEffect(() => {
     let alive = true;
-    loadMapLand().then((html) => alive && setLand(html));
+    loadMapInk().then((html) => alive && setInk(html));
     return () => { alive = false; };
   }, []);
+  useEffect(() => (painted ? loadHiResWhenIdle(setSrc) : undefined), [painted]);
   return (
     <>
       <div
         className="layer"
         style={{ width: geo.S, height: geo.S, transform: layerTransform(geo, view), transition: LAYER_TRANSITION[anim] }}
       >
-        <svg viewBox="0 0 1000 1000" aria-hidden="true" focusable="false">
-          <g dangerouslySetInnerHTML={{ __html: MAP_OCEAN }} />
-          <g dangerouslySetInnerHTML={{ __html: land }} />
-        </svg>
+        {!painted && (
+          <svg viewBox="0 0 1000 1000" style={{ position: 'absolute' }} aria-hidden="true" focusable="false" dangerouslySetInnerHTML={{ __html: MAP_PLACEHOLDER }} />
+        )}
+        {src && <img className="paint" src={src} alt="" draggable={false} decoding="async" fetchPriority="high" style={MAP_RASTER_BOX} onLoad={() => setPainted(true)} />}
+        <svg viewBox="0 0 1000 1000" aria-hidden="true" focusable="false" dangerouslySetInnerHTML={{ __html: ink }} />
       </div>
       <Markers
         markers={markers}
-        className={'ov' + (anim === 'zoom' ? ' zooming' : '') + (phase === 'dive' ? ' hide' : '')}
+        className={'ov' + (anim === 'zoom' ? ' zooming' : anim === 'wheel' ? ' wheeling' : '') + (phase === 'dive' ? ' hide' : '')}
         onPick={onPick}
       />
     </>
@@ -182,13 +194,28 @@ export function MapView({
     if (ptrs.current.size === 0) g.pan = null;
   };
 
-  const onWheel = (e: WheelEvent) => {
-    if (phase !== 'idle') return;
-    const p = rel(e);
-    setView(zoomAround(size, view, p.x, p.y, view.k * (e.deltaY < 0 ? 1.18 : 1 / 1.18)));
-    setAnim('');
-    setTouched(true);
-  };
+  // Native non-passive listener: preventDefault keeps trackpad pinch (ctrl+wheel) from zooming the whole page.
+  useEffect(() => {
+    const el = vpRef.current;
+    if (!el) return;
+    const onWheel = (e: globalThis.WheelEvent) => {
+      e.preventDefault();
+      const { size: sz, view: v, phase: ph } = live.current;
+      if (ph !== 'idle') return;
+      const p = rel(e);
+      // Compound from the latest target so quick notches add up instead of restarting.
+      const next = zoomAround(sz, v, p.x, p.y, v.k * wheelFactor(e.deltaY, e.deltaMode));
+      live.current.view = next;
+      setView(next);
+      setTouched(true);
+      if (isWheelNotch(e.deltaY, e.deltaMode)) {
+        setAnim('wheel');
+        later('wheel', () => setAnim(''), WHEEL_MS);
+      } else setAnim('');
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, []);
 
   const onKey = (e: KeyboardEvent) => {
     if (e.target !== vpRef.current) return;
@@ -231,7 +258,6 @@ export function MapView({
           onPointerUp={onUp}
           onPointerCancel={onUp}
           onPointerLeave={onUp}
-          onWheel={onWheel}
           onKeyDown={onKey}
         >
           {!forceList && <Layer size={size} geo={geo} view={view} anim={anim} phase={phase} markers={markers} onPick={onPick} />}

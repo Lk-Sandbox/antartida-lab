@@ -2,13 +2,13 @@ import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from 're
 import { CanvasTexture, SRGBColorSpace, Vector3, type Texture } from 'three';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
-import { EXPEDITION_POINT, mapSvgDocument, type Geometry, type Marker, type Size, type View } from '@antartida/core';
+import {
+  EXPEDITION_POINT, MAP_RASTER, MAP_RASTER_PAD, MAP_RASTER_SPAN, loadMapInk, type Geometry, type Marker, type Size, type View,
+} from '@antartida/core';
 import { MarkerButton, useReducedMotion, type Anim, type LayerProps, type Phase } from '@antartida/react-ui';
 
 const FOV = 40;
-/** Map units of margin around 0..1000 so Tierra del Fuego and the halo fit in the texture. */
-const PAD = 250;
-const PLANE = 1000 + 2 * PAD;
+const PLANE = MAP_RASTER_SPAN;
 const ZOOM_MS = 450;
 const DIVE_MS = 1500;
 
@@ -75,32 +75,42 @@ function CameraRig({ size, geo, view, anim, phase, reduced }: {
   return null;
 }
 
-async function rasterizeMap(size: number): Promise<Texture> {
-  const url = URL.createObjectURL(new Blob([await mapSvgDocument(size, PAD)], { type: 'image/svg+xml' }));
+async function loadImage(src: string): Promise<HTMLImageElement> {
+  const img = new Image();
+  img.src = src;
+  await img.decode();
+  return img;
+}
+
+/** Baked watercolor plus the vector ink (outlines, route, labels) composed into one texture. */
+async function buildMapTexture(size: number, hi: boolean): Promise<Texture> {
+  const ink = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="${-MAP_RASTER_PAD} ${-MAP_RASTER_PAD} ${MAP_RASTER_SPAN} ${MAP_RASTER_SPAN}">${await loadMapInk()}</svg>`;
+  const inkUrl = URL.createObjectURL(new Blob([ink], { type: 'image/svg+xml' }));
   try {
-    const img = new Image();
-    img.src = url;
-    await img.decode();
+    const [paint, inkImg] = await Promise.all([loadImage(hi ? MAP_RASTER.hi : MAP_RASTER.base), loadImage(inkUrl)]);
     const canvas = document.createElement('canvas');
     canvas.width = canvas.height = size;
-    canvas.getContext('2d')!.drawImage(img, 0, 0, size, size);
+    const ctx = canvas.getContext('2d')!;
+    ctx.drawImage(paint, 0, 0, size, size);
+    ctx.drawImage(inkImg, 0, 0, size, size);
     const texture = new CanvasTexture(canvas);
     texture.colorSpace = SRGBColorSpace;
     texture.anisotropy = 8;
     return texture;
   } finally {
-    URL.revokeObjectURL(url);
+    URL.revokeObjectURL(inkUrl);
   }
 }
 
-/** The painted SVG map, rasterized once into a texture on a flat plane. */
+/** The map texture on a flat plane. */
 function MapPlane({ wide }: { wide: boolean }) {
   const [texture, setTexture] = useState<Texture | null>(null);
   const invalidate = useThree((s) => s.invalidate);
   const maxSize = useThree((s) => s.gl.capabilities.maxTextureSize);
   useEffect(() => {
     let alive = true;
-    rasterizeMap(Math.min(maxSize, wide ? 4096 : 2048)).then((t) => {
+    const size = Math.min(maxSize, wide ? 4096 : 2048);
+    buildMapTexture(size, size > 2048).then((t) => {
       if (alive) {
         setTexture(t);
         invalidate();
